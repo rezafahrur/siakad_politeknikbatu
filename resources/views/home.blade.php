@@ -37,7 +37,6 @@
                     </div>
                     <div class="card-body mt-3">
                         <p><i class="bi bi-award"></i> GPA: <strong>3.75</strong></p>
-                        <p><i class="bi bi-briefcase"></i> Credits Earned: <strong>120</strong></p>
                         <p><i class="bi bi-calendar-check"></i> Next Semester: <strong>7th Semester</strong></p>
                         <a href="{{ route('academic.summary') }}" class="btn btn-primary mt-2">View Details</a>
                     </div>
