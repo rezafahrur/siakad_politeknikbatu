@@ -25,6 +25,18 @@
 
             <li class="sidebar-item has-sub">
                 <a href="#" class="sidebar-link">
+                    <i class="bi bi-person-fill"></i>
+                    <span>General</span>
+                </a>
+                <ul class="submenu">
+                    <li class="submenu-item">
+                        <a href="{{ url('/biodata') }}" class="submenu-link">Biodata Mahasiswa</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="sidebar-item has-sub">
+                <a href="#" class="sidebar-link">
                     <i class="bi bi-collection-fill"></i>
                     <span>Akademik</span>
                 </a>
@@ -46,7 +58,7 @@
 
             <li class="sidebar-item has-sub">
                 <a href="#" class="sidebar-link">
-                    <i class="bi bi-collection-fill"></i>
+                    <i class="bi-currency-dollar"></i>
                     <span>UKT</span>
                 </a>
                 <ul class="submenu">
