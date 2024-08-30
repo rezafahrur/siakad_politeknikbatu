@@ -1,28 +1,37 @@
 <?php
 
+use App\Models\ShortenerURL;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\GradeController;
-use App\Http\Controllers\AcademicSummaryController;
-use App\Http\Controllers\JadwalPerkuliahanController;
-use App\Http\Controllers\KeringananUktController;
 use App\Http\Controllers\KrsController;
-use App\Http\Controllers\KuisionerController;
-use App\Http\Controllers\MessageController;
-use App\Http\Controllers\ScheduleController;
-use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\NewsController;
-use App\Http\Controllers\NilaiMahasiswaController;
-use App\Http\Controllers\PembayaranUktController;
-use App\Http\Controllers\PermintaanSuratController;
+use App\Http\Controllers\GradeController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PresensiController;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KuisionerController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\KeringananUktController;
+use App\Http\Controllers\PembayaranUktController;
+use App\Http\Controllers\NilaiMahasiswaController;
+use App\Http\Controllers\AcademicSummaryController;
+use App\Http\Controllers\PermintaanSuratController;
+use App\Http\Controllers\JadwalPerkuliahanController;
 use App\Http\Controllers\RiwayatPermintaanSuratController;
 
-Route::get('/', function () {
-    return view('home');
+Route::group(['middleware' => ['auth:mahasiswa']], function () {
+    Route::get('/', function () {
+        return view('home')->name('dashboard');
+    });
 });
+
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::get('/login-process/{hp}/{otp}', [LoginController::class, 'loginProcess'])->name('login.process');
+Route::post('/loginFrom', [LoginController::class, 'generateLoginURL'])->name('login.generateURL');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
@@ -38,5 +47,14 @@ Route::get('/jadwal-perkuliahan', [JadwalPerkuliahanController::class, 'index'])
 Route::get('/nilai-mahasiswa', [NilaiMahasiswaController::class, 'index']);
 Route::get('/presensi', [PresensiController::class, 'index']);
 Route::get('/pembayaran-ukt', [PembayaranUktController::class, 'index']);
+
+Route::get('/test', function () {
+    $so = new ShortenerURL;
+    $so->keyword = 'saaa';
+    $so->url = 'ssss';
+    $so->ip = '$request->ip()';
+    $so->click = 0;
+    $so->save();
+});
 
 
