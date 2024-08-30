@@ -20,6 +20,7 @@ use App\Http\Controllers\NilaiMahasiswaController;
 use App\Http\Controllers\AcademicSummaryController;
 use App\Http\Controllers\PermintaanSuratController;
 use App\Http\Controllers\JadwalPerkuliahanController;
+use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\RiwayatPermintaanSuratController;
 
 Route::group(['middleware' => ['auth:mahasiswa']], function () {
@@ -42,6 +43,7 @@ Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule');
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
 Route::get('/news', [NewsController::class, 'index'])->name('news');
 
+Route::get('/biodata', [MahasiswaController::class, 'index']);
 Route::get('/krs', [KrsController::class, 'index']);
 Route::get('/jadwal-perkuliahan', [JadwalPerkuliahanController::class, 'index']);
 Route::get('/nilai-mahasiswa', [NilaiMahasiswaController::class, 'index']);
