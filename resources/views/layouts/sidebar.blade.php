@@ -2,7 +2,8 @@
     <div class="sidebar-header position-relative">
         <div class="d-flex justify-content-between align-items-center">
             <div class="logo">
-                <a href="#"><img style="height: 50px" src="{{ asset('assets/images/logo/logo.png') }}" alt="Logo"/></a>
+                <a href="#"><img style="height: 50px" src="{{ asset('assets/images/logo/logo.png') }}"
+                        alt="Logo" /></a>
             </div>
             <div class="theme-toggle d-flex gap-2 align-items-center mt-2">
                 <!-- SVG Icons -->
@@ -17,7 +18,7 @@
             <li class="sidebar-title">Menu</li>
 
             <li class="sidebar-item">
-                <a href="{{ url('/dashboard') }}" class="sidebar-link">
+                <a href="{{ route('dashboard') }}" class="sidebar-link">
                     <i class="bi bi-grid-fill"></i>
                     <span>Dashboard</span>
                 </a>

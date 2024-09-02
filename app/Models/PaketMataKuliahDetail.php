@@ -11,12 +11,12 @@ class PaketMataKuliahDetail extends Model
 
     protected $table = 't_paket_matakuliah_detail';
 
-    // protected $fillable = [
-    //     'paket_matakuliah_id',
-    //     'matakuliah_id',
-    //     'created_at',
-    //     'updated_at'
-    // ];
+    protected $fillable = [
+        'paket_matakuliah_id',
+        'matakuliah_id',
+        'created_at',
+        'updated_at'
+    ];
 
     public function matakuliah()
     {

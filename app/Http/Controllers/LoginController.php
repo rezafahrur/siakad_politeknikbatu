@@ -30,7 +30,7 @@ class LoginController extends Controller
             // generate keyword
             $keyword = bin2hex(random_bytes(5));
 
-            $url  = 'http://192.168.110.96:8000/login-process/' . $user->hp . '/' . $otp;
+            $url  = 'http://192.168.1.166:80/login-process/' . $user->hp . '/' . $otp;
             $so = new ShortenerURL;
             $so->keyword = $keyword;
             $so->url = $url;
@@ -39,6 +39,7 @@ class LoginController extends Controller
             $so->save();
 
             $urlNow = 'https://so.poltekbatu.ac.id/' . $keyword;
+            // $urlNow = 'http://192.168.18.75/' . $keyword;
             $res = array(
                 'url' => $urlNow,
                 'nama' => $user->nama,
@@ -68,7 +69,6 @@ class LoginController extends Controller
                 Session::getHandler()->destroy($user->session_id);
                 Auth::guard('mahasiswa')->logout();
             }
-
             // login
             $mahasiswa_detail->session_id = $new_session_id;
             $mahasiswa_detail->save();
@@ -78,7 +78,9 @@ class LoginController extends Controller
             Session::put('nim', $user->nim);
             Session::put('email', $user->email);
 
-            Auth::guard('mahasiswa')->user();
+            Auth::guard('mahasiswa')->loginUsingId($user->mahasiswa_id);
+
+            $user = Auth::guard('mahasiswa')->user();
 
             // return redirect()->route('dashboard');
 
@@ -93,11 +95,11 @@ class LoginController extends Controller
     }
 
     function logout() {
-        $user = Mahasiswa::where('t_mahasiswa_detail.mahasiswa_id', Session::get('mahasiswa_id'))->join('m_mahasiswa', 'm_mahasiswa.id', '=', 't_mahasiswa_detail.mahasiswa_id')->select( 't_mahasiswa_detail.*' , 'm_mahasiswa.*')->orderBy('t_mahasiswa_detail.created_at', 'desc')->first();
+        $user = MahasiswaDetail::where('t_mahasiswa_detail.mahasiswa_id', Session::get('mahasiswa_id'))->join('m_mahasiswa', 't_mahasiswa_detail.mahasiswa_id', '=' , 'm_mahasiswa.id')->select( 't_mahasiswa_detail.*' , 'm_mahasiswa.nama')->orderBy('t_mahasiswa_detail.created_at', 'desc')->first();
         Session::getHandler()->destroy($user->session_id);
         $user->session_id = null;
         $user->save();
-        Auth::guard('hr')->logout();
+        Auth::guard('mahasiswa')->logout();
 
         return redirect()->route('login');
     }
