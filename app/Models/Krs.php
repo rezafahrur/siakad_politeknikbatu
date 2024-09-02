@@ -12,12 +12,12 @@ class Krs extends Model
 
     protected $table = 'm_krs';
     protected $primaryKey = 'id';
-    // protected $fillable = [
-    //     'mahasiswa_id',
-    //     'paket_matakuliah_id',
-    //     'status',
-    //     'tgl_transfer',
-    // ];
+    protected $fillable = [
+        'mahasiswa_id',
+        'paket_matakuliah_id',
+        'status',
+        'tgl_transfer',
+    ];
 
     public function mahasiswa()
     {

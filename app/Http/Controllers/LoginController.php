@@ -30,7 +30,7 @@ class LoginController extends Controller
             // generate keyword
             $keyword = bin2hex(random_bytes(5));
 
-            $url  = 'http://192.168.110.96:80/login-process/' . $user->hp . '/' . $otp;
+            $url  = 'http://192.168.1.166:80/login-process/' . $user->hp . '/' . $otp;
             $so = new ShortenerURL;
             $so->keyword = $keyword;
             $so->url = $url;
@@ -39,6 +39,7 @@ class LoginController extends Controller
             $so->save();
 
             $urlNow = 'https://so.poltekbatu.ac.id/' . $keyword;
+            // $urlNow = 'http://192.168.18.75/' . $keyword;
             $res = array(
                 'url' => $urlNow,
                 'nama' => $user->nama,

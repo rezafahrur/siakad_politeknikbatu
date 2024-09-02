@@ -13,7 +13,14 @@ class PaketMataKuliah extends Model
 
     protected $table = 'm_paket_matakuliah';
 
-    //
+    protected $fillable = [
+        'nama_paket_matakuliah',
+        'program_studi_id',
+        'semester',
+        'status',
+        'created_at',
+        'updated_at',
+    ];
 
     public function programStudi()
     {
