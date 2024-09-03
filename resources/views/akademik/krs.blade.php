@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'KRS')
+@section('title', 'KRS Mahasiswa')
 
 @section('content')
     <div class="page-heading">

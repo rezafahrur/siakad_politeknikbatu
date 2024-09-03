@@ -28,4 +28,9 @@ class Krs extends Model
     {
         return $this->belongsTo(PaketMataKuliah::class, 'paket_matakuliah_id', 'id');
     }
+
+    public function paketMatkulview()
+    {
+        return $this->hasOne(PaketMataKuliah::class, 'paket_matakuliah_id', 'id');
+    }
 }
