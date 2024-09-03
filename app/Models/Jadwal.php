@@ -13,9 +13,9 @@ class Jadwal extends Model
     protected $table = "m_jadwal";
     protected $primaryKey = 'id';
 
-    // protected $fillable = [
-    //     'paket_matakuliah_id',
-    // ];
+    protected $fillable = [
+        'paket_matakuliah_id',
+    ];
 
     public function paketMataKuliah()
     {
