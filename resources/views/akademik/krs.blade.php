@@ -12,6 +12,7 @@
                         Who does not love tables?
                     </p> --}}
                 </div>
+
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
@@ -31,6 +32,8 @@
     <div class="card">
         <div class="card-content">
             <div class="card-body">
+                  <!-- Tambahkan Button Cetak PDF di Sini -->
+
                 @if ($krs->isEmpty())
                     <p>Tidak ada KRS yang tersedia.</p>
                 @else
@@ -96,7 +99,13 @@
                         @endif
                     @endforeach
                 @endif
+                <div class="mb-3">
+                    <a href="{{ route('krs.cetak-pdf') }}" class="btn btn-success" target="_blank">
+                        <i class="fas fa-file-pdf"></i> Cetak PDF
+                    </a>
+                </div>
             </div>
+
         </div>
     </div>
 
