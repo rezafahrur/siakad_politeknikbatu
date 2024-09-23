@@ -18,6 +18,18 @@ class DashboardController extends Controller
         $mahasiswa = Mahasiswa::where('id', Session::get('mahasiswa_id'))->first();
         // dd($mahasiswa);
 
+        // Mengambil informasi akademik
+        $semesterAktif = $mahasiswa->semester_aktif;
+        $jumlahSks = $mahasiswa->jumlah_sks;
+        $ipk = $mahasiswa->ipk;
+
+        // Status pembayaran UKT
+        $pembayaran = $mahasiswa->pembayaran;
+        $statusPembayaran = $pembayaran ? $pembayaran->status : 'Belum bayar';
+
+        // Mengambil pengumuman terbaru
+        $pengumuman = Pengumuman::orderBy('tanggal', 'desc')->take(5)->get();
+
         return view('home', compact('berita', 'mahasiswa'));
     }
 }
