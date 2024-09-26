@@ -5,11 +5,10 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
     <div>
-        <h4 class="mb-3 mb-md-0">Selamat Datang, RIZALDY</h4>
-        <p class="mb-1">NIM: 2141720115</p>
-        <p class="mb-1">Program Studi: D4 - Teknik Informatika</p>
+        <h4 class="mb-3 mb-md-0">Selamat Datang, {{ Auth::guard('mahasiswa')->user()->nama }}</h4>
+        <p class="mb-1">NIM: {{ Auth::guard('mahasiswa')->user()->nim }}</p>
+        <p class="mb-1">Program Studi: {{ Auth::guard('mahasiswa')->user()->programStudi->nama_program_studi }}</p>
     </div>
-    
 </div>
 
 <div class="row">
