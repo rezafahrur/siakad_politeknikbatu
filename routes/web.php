@@ -23,12 +23,9 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\RiwayatPermintaanSuratController;
 
-Route::group(['middleware' => ['auth:mahasiswa']], function () {
-    // Route::get('/', function () {
-    //     return view('home');
-    // });
+// Route::group(['middleware' => ['auth:mahasiswa']], function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('home');
 
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/courses', [CourseController::class, 'index'])->name('courses');
     Route::get('/grades', [GradeController::class, 'index'])->name('grades');
@@ -37,15 +34,15 @@ Route::group(['middleware' => ['auth:mahasiswa']], function () {
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
     Route::get('/news', [NewsController::class, 'index'])->name('news');
 
-    Route::get('/biodata', [MahasiswaController::class, 'index']);
-    Route::get('/krs', [KrsController::class, 'index']);
+    Route::get('/biodata', [MahasiswaController::class, 'index'])->name('biodata');
+    Route::get('/krs', [KrsController::class, 'index'])->name('krs');
     Route::get('/jadwal-perkuliahan', [JadwalController::class, 'index']);
     Route::get('/nilai-mahasiswa', [NilaiMahasiswaController::class, 'index']);
     Route::get('/presensi', [PresensiController::class, 'index']);
     Route::get('/pembayaran-ukt', [PembayaranUktController::class, 'index']);
     Route::get('/krs_pdf', [KrsController::class, 'cetakPdf'])->name('krs.cetak-pdf');
 
-});
+// });
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::get('/login-process/{hp}/{otp}', [LoginController::class, 'loginProcess'])->name('login.process');
