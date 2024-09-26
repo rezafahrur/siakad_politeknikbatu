@@ -24,9 +24,7 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\RiwayatPermintaanSuratController;
 
 // Route::group(['middleware' => ['auth:mahasiswa']], function () {
-    Route::get('/', function () {
-        return view('layouts.app');
-    })->name('home');
+    Route::get('/', [DashboardController::class, 'index'])->name('home');
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/courses', [CourseController::class, 'index'])->name('courses');
