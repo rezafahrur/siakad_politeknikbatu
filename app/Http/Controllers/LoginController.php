@@ -84,7 +84,7 @@ class LoginController extends Controller
 
             // return redirect()->route('dashboard');
 
-            return redirect()->route('dashboard');
+            return redirect()->route('home');
         } else {
             $mahasiswa_detail->otp = null;
             $mahasiswa_detail->session_id = null;
