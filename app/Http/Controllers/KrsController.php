@@ -10,10 +10,18 @@ class KrsController extends Controller
 {
     public function index()
     {
-        // Mendapatkan KRS sesuai mahasiswa_id
-        $krs = Krs::where('mahasiswa_id', Session::get('mahasiswa_id'))->get();
+        // Mendapatkan KRS terbaru sesuai mahasiswa_id
+        $krs = Krs::where('mahasiswa_id', Session::get('mahasiswa_id'))
+            ->orderByDesc('created_at') // Order by the latest created KRS
+            ->first(); // Get only the latest one
+
+        if (!$krs) {
+            return view('akademik.krs', ['krs' => []]);
+        }
+
         return view('akademik.krs', compact('krs'));
     }
+
 
     public function cetakPDF()
     {
