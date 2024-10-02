@@ -23,7 +23,7 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\RiwayatPermintaanSuratController;
 
-// Route::group(['middleware' => ['auth:mahasiswa']], function () {
+Route::group(['middleware' => ['auth:mahasiswa']], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('home');
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
@@ -42,7 +42,7 @@ use App\Http\Controllers\RiwayatPermintaanSuratController;
     Route::get('/pembayaran-ukt', [PembayaranUktController::class, 'index']);
     Route::get('/krs_pdf', [KrsController::class, 'cetakPdf'])->name('krs.cetak-pdf');
 
-// });
+});
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::get('/login-process/{hp}/{otp}', [LoginController::class, 'loginProcess'])->name('login.process');
