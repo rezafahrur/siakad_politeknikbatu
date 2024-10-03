@@ -13,12 +13,13 @@ class MahasiswaWali extends Model
 
     protected $table = 'm_mahasiswa_wali';
     protected $primaryKey = 'id';
-    // protected $fillable = [
-    //     'mahasiswa_id',
-    //     'ktp_id',
-    //     'nama',
-    //     'status_kewalian',
-    // ];
+    protected $fillable = [
+        'mahasiswa_id',
+        'ktp_id',
+        'nama',
+        'status_kewalian',
+        'kebutuhan_khusus',
+    ];
 
     public function mahasiswa()
     {
@@ -35,8 +36,8 @@ class MahasiswaWali extends Model
         return $this->hasOne(MahasiswaWaliDetail::class, 'mahasiswa_wali_id', 'id');
     }
 
-    // public function mahasiswaWaliDetailDelete()
-    // {
-    //     return $this->hasMany(MahasiswaWaliDetail::class, 'mahasiswa_wali_id', 'id');
-    // }
+    public function mahasiswaWaliDetailDelete()
+    {
+        return $this->hasMany(MahasiswaWaliDetail::class, 'mahasiswa_wali_id', 'id');
+    }
 }

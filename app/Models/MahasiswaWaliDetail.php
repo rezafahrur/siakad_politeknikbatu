@@ -13,14 +13,14 @@ class MahasiswaWaliDetail extends Model
 
     protected $table = 't_mahasiswa_wali_detail';
     protected $primaryKey = 'id';
-    // protected $fillable = [
-    //     'mahasiswa_wali_id',
-    //     'hp',
-    //     'alamat_domisili',
-    //     'pekerjaan',
-    //     'penghasilan',
-    //     'pendidikan'
-    // ];
+    protected $fillable = [
+        'mahasiswa_wali_id',
+        'hp',
+        'alamat_domisili',
+        'pekerjaan',
+        'penghasilan',
+        'pendidikan'
+    ];
 
     public function mahasiswaWali()
     {
