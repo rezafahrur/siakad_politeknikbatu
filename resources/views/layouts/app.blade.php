@@ -24,11 +24,11 @@
 
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="{{ asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/sweetalert2/sweetalert2.min.css') }}">
     <!-- End plugin css for this page -->
 
     <!-- inject:css -->
     <link rel="stylesheet" href="{{ asset('assets/fonts/feather-font/css/iconfont.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendors/flag-icon-css/css/flag-icon.min.css') }}">
     <!-- endinject -->
 
     <!-- Layout styles -->
@@ -38,6 +38,8 @@
     {{-- <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" /> --}}
     <link rel="shortcut icon" href="{{ asset('assets/images/logo/logo.png') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('assets/images/logo/logo.png') }}" type="image/png">
+
+    @stack('styles')
 </head>
 
 <body>
@@ -67,6 +69,8 @@
     <script src="{{ asset('assets/vendors/jquery.flot/jquery.flot.resize.js') }}"></script>
     <script src="{{ asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/sweetalert2/sweetalert2.min.js') }}"></script>
+
     <!-- End plugin js for this page -->
 
     <!-- inject:js -->
@@ -77,8 +81,9 @@
     <!-- Custom js for this page -->
     <script src="{{ asset('assets/js/dashboard-light.js') }}"></script>
     <script src="{{ asset('assets/js/datepicker.js') }}"></script>
+    <script src="{{ asset('assets/js/sweet-alert.js') }}"></script>
     <!-- End custom js for this page -->
-
+    @stack('scripts')
 </body>
 
 </html>
