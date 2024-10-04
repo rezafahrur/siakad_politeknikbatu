@@ -109,7 +109,7 @@ class MahasiswaController extends Controller
             $ktp = $mahasiswa->ktp;
 
             // Mengambil detail mahasiswa jika ada
-            $mhsDetail = MahasiswaDetail::where('mahasiswa_id', $id)->latest()->first();
+            $mhsDetail = MahasiswaDetail::where('mahasiswa_id', $id)->latest()->get();
 
             // Contoh mengambil wali pertama, jika ada
             $wali1 = MahasiswaWali::where('mahasiswa_id', $id)
