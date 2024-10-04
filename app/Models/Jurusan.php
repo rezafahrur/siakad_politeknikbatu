@@ -17,4 +17,14 @@ class Jurusan extends Model
     //     'kode_jurusan',
     //     'nama_jurusan',
     // ];
+
+    public function programStudi()
+    {
+        return $this->hasMany(ProgramStudi::class, 'jurusan_id', 'id');
+    }
+
+    public function mahasiswa()
+    {
+        return $this->hasMany(Mahasiswa::class, 'jurusan_id', 'id');
+    }
 }

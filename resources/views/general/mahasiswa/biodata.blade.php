@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Mahasiswa')
+@section('title', 'Update Biodata Mahasiswa')
 
 @section('content')
     <div class="page-heading">
