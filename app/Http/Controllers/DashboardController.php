@@ -23,6 +23,8 @@ class DashboardController extends Controller
         // Dapatkan hari saat ini
         $hari = Carbon::now()->translatedFormat('l');
 
+        // dd($mahasiswa);
+
         return view('dashboard', compact('berita', 'mahasiswa', 'hari'));
     }
 }

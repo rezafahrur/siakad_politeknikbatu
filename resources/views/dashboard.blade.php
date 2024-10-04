@@ -27,17 +27,16 @@
     </div>
 
     <div class="row">
-        <!-- Ringkasan Akademik -->
         <div class="col-md-6 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Ringkasan Akademik</h6>
+                    <h6 class="card-title">Data Mahasiswa</h6>
                     <li style="display: flex;">
                         <span style="flex: 0 0 150px;"><i class="bi bi-person-circle"></i> NIM</span>:&nbsp;
                         <strong style="color:blue">{{ $mahasiswa->nim }}</strong>
                     </li>
                     <li style="display: flex;">
-                        <span style="flex: 0 0 150px;"><i class="bi bi-person"></i> Name</span>:&nbsp;
+                        <span style="flex: 0 0 150px;"><i class="bi bi-person"></i> Nama</span>:&nbsp;
                         <strong>{{ $mahasiswa->nama }}</strong>
                     </li>
                     <li style="display: flex;">
@@ -60,7 +59,9 @@
                     </li>
                     <li style="display: flex;">
                         <span style="flex: 0 0 150px;"><i class="bi bi-info-circle"></i> Status</span>:&nbsp;
-                        <strong style="color: green">{{ $mahasiswa->status ? 'Active' : 'Inactive' }}</strong>
+                        <strong style="color: {{ $mahasiswa->status ? 'green' : 'red' }}">
+                            {{ $mahasiswa->status ? 'Aktif' : 'Nonaktif' }}
+                        </strong>
                     </li>
                     <li style="display: flex;">
                         <span>
@@ -217,11 +218,12 @@
             <div class="card-body">
                 <h6 class="card-title">Pengumuman</h6>
                 <ul>
-                    <li>Workshop Pengembangan Karir - 25 September 2024</li>
-                    <li>Pengumuman Wisuda - 30 September 2024</li>
-                    <li>Pelatihan Soft Skills - 1 Oktober 2024</li>
+                    {{-- foreach berita tampilkan judulnya aja --}}
+                    @foreach ($berita as $item)
+                        <li>{{ $item->judul_berita }}</li>
+                    @endforeach
                 </ul>
-                <a href="pengumuman.html" class="btn btn-info mt-2">Lihat Semua Berita</a>
+                <a href="" class="btn btn-primary mt-2">Lihat Semua Berita</a>
             </div>
         </div>
 
