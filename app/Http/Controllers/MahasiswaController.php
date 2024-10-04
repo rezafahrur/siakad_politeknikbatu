@@ -109,7 +109,7 @@ class MahasiswaController extends Controller
             $ktp = $mahasiswa->ktp;
 
             // Mengambil detail mahasiswa jika ada
-            $mhsDetail = MahasiswaDetail::where('mahasiswa_id', $id)->latest()->get();
+            $mhsDetail = MahasiswaDetail::where('mahasiswa_id', $id)->latest()->first();
 
             // Contoh mengambil wali pertama, jika ada
             $wali1 = MahasiswaWali::where('mahasiswa_id', $id)
@@ -180,33 +180,11 @@ class MahasiswaController extends Controller
             ]);
         }
 
-        // Fetch data wali by mahasiswa ID
-        $wali1 = MahasiswaWali::where('mahasiswa_id', $id)
-            ->where('status_kewalian', 'AYAH')
-            ->first();
-
-        $wali2 = MahasiswaWali::where('mahasiswa_id', $id)
-            ->where('status_kewalian', 'IBU')
-            ->first();
-
-        // Fetch data latest mahasiswa detail by mahasiswa ID
-        $mhsDetail = MahasiswaDetail::where('mahasiswa_id', $id)->latest()->first();
-        $wali1Detail = MahasiswaWaliDetail::where('mahasiswa_wali_id', $wali1->id)->latest()->first();
-        $wali2Detail = MahasiswaWaliDetail::where('mahasiswa_wali_id', $wali2->id)->latest()->first();
-
-        // Ambil kebutuhan khusus dari mahasiswa
-        $mahasiswaKebutuhanKhusus = is_array($mahasiswa->kebutuhan_khusus) ? $mahasiswa->kebutuhan_khusus : explode(',', $mahasiswa->kebutuhan_khusus);
-
-        // Ambil kebutuhan khusus dari wali (Ayah)
-        $wali1KebutuhanKhusus = $wali1 && $wali1->kebutuhan_khusus ? (is_array($wali1->kebutuhan_khusus) ? $wali1->kebutuhan_khusus : explode(',', $wali1->kebutuhan_khusus)) : [];
-
-        // Ambil kebutuhan khusus dari wali (Ibu)
-        $wali2KebutuhanKhusus = $wali2 && $wali2->kebutuhan_khusus ? (is_array($wali2->kebutuhan_khusus) ? $wali2->kebutuhan_khusus : explode(',', $wali2->kebutuhan_khusus)) : [];
-
         // Fetch data for the dropdowns and populate with existing data
         $provinces = Province::all();
+        $mhsDetail = MahasiswaDetail::where('mahasiswa_id', $id)->latest()->first();
 
-        return view('mahasiswa.biodata', compact('mahasiswa', 'prodi', 'provinces', 'wali1', 'wali2', 'jurusan', 'mhsDetail', 'wali1Detail', 'wali2Detail', 'mahasiswaKebutuhanKhusus', 'wali1KebutuhanKhusus', 'wali2KebutuhanKhusus'));
+        return view('mahasiswa.biodata', compact('mahasiswa', 'prodi', 'jurusan', 'provinces', 'mhsDetail'));
     }
 
     public function storeOrUpdate(MahasiswaRequest $request)

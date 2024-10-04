@@ -42,7 +42,7 @@
     @stack('styles')
 </head>
 
-<body>
+<body data-session-success="{{ session('success') }}" data-session-error="{{ session('error') }}">
     <div class="main-wrapper">
 
         @include('layouts.sidebar')

@@ -60,7 +60,9 @@
                     </li>
                     <li style="display: flex;">
                         <span style="flex: 0 0 150px;"><i class="bi bi-info-circle"></i> Status</span>:&nbsp;
-                        <strong style="color: green">{{ $mahasiswa->status ? 'Active' : 'Inactive' }}</strong>
+                        <strong style="color: {{ $mahasiswa->status ? 'green' : 'red' }}">
+                            {{ $mahasiswa->status ? 'Aktif' : 'Nonaktif' }}
+                        </strong>
                     </li>
                     <li style="display: flex;">
                         <span>
