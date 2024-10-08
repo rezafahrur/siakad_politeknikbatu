@@ -87,14 +87,13 @@
                             </tbody>
                         </table>
                     </div>
+                    <!-- Button Cetak PDF -->
+                    <div class="mb-3">
+                        <a href="{{ route('krs.cetak-pdf') }}" class="btn btn-success" target="_blank">
+                            <i class="fas fa-file-pdf"></i> Cetak PDF
+                        </a>
+                    </div>
                 @endif
-
-                <!-- Button Cetak PDF -->
-                <div class="mb-3">
-                    <a href="{{ route('krs.cetak-pdf') }}" class="btn btn-success" target="_blank">
-                        <i class="fas fa-file-pdf"></i> Cetak PDF
-                    </a>
-                </div>
             </div>
         </div>
     </div>

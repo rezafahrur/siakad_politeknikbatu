@@ -31,6 +31,9 @@
                         <li class="nav-item">
                             <a href="{{ route('biodata') }}" class="nav-link">Biodata Mahasiswa</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link">Unggah Foto KTM</a>
+                        </li>
                     </ul>
                 </div>
             </li>
@@ -48,13 +51,19 @@
                             <a href="{{ route('krs') }}" class="nav-link">Kartu Rencana Studi (KRS)</a>
                         </li>
                         <li class="nav-item">
-                            <a href="jadwal-perkuliahan.html" class="nav-link">Jadwal Perkuliahan</a>
+                            <a href="" class="nav-link">Kartu Hasil Studi (KHS)</a>
                         </li>
                         <li class="nav-item">
-                            <a href="nilai-mahasiswa.html" class="nav-link">Nilai Mahasiswa</a>
+                            <a href="" class="nav-link">Jadwal Perkuliahan</a>
                         </li>
                         <li class="nav-item">
-                            <a href="presensi.html" class="nav-link">Presensi</a>
+                            <a href="" class="nav-link">Nilai Mahasiswa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link">Absensi</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link">Rekap Hasil Studi</a>
                         </li>
                     </ul>
                 </div>
