@@ -35,11 +35,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/demo1/style.css') }}">
     <!-- End layout styles -->
 
-    {{-- <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" /> --}}
-    <link rel="shortcut icon" href="{{ asset('assets/images/logo/logo.png') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('assets/images/logo/logo.png') }}" type="image/png">
-
-    @stack('styles')
+    <link rel="shortcut icon" href="{{ asset('assets/images/logo/logo.png') }}" />
 </head>
 
 <body data-session-success="{{ session('success') }}" data-session-error="{{ session('error') }}">

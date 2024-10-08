@@ -53,11 +53,11 @@
 
                                 {{-- ip semester lalu --}}
                                 <dt class="col-sm-4">IP Semester Lalu</dt>
-                                <dd class="col-sm-8">0</dd>
+                                <dd class="col-sm-8">0.00</dd>
 
                                 {{-- ip komulatif --}}
                                 <dt class="col-sm-4">IP Komulatif</dt>
-                                <dd class="col-sm-8">0</dd>
+                                <dd class="col-sm-8">0.00</dd>
                             </dl>
                         </div>
                     </div>
@@ -98,3 +98,4 @@
         </div>
     </div>
 @endsection
+
