@@ -29,9 +29,23 @@ class KrsController extends Controller
         $krs = Krs::where('mahasiswa_id', Session::get('mahasiswa_id'))->get();
 
         // Buat view PDF
-        $pdf = Pdf::loadView('akademik.krs_pdf', compact('krs'));
+        $pdf = Pdf::loadView('export.export-krs', compact('krs'));
 
-        // Unduh PDF
-        return $pdf->download('KRS_Mahasiswa.pdf');
+        $namaFile = 'KRS_' . Session::get('nama') . '.pdf';
+
+        // Unduh PDF dengan nama file KRS_NAMA_MAHASISWA.pdf
+        return $pdf->download($namaFile);
     }
+
+    // public function exportPdf()
+    // {
+    //     // Ambil data KRS dari database
+    //     $krs = \App\Models\KRS::with(['paketMatakuliah.paketMatakuliahDetail.matakuliah'])->get();
+
+    //     // Load view ke dalam PDF
+    //     $pdf = PDF::loadView('krs.export', compact('krs'));
+
+    //     // Download PDF
+    //     return $pdf->download('krs_mahasiswa.pdf');
+    // }
 }
