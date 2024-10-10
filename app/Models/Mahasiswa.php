@@ -75,4 +75,10 @@ class Mahasiswa extends Authenticatable
         return $this->hasMany(Krs::class, 'mahasiswa_id', 'id');
     }
 
+    // ktm
+    public function ktm()
+    {
+        return $this->hasOne(MahasiswaKtm::class, 'mahasiswa_id', 'id');
+    }
+
 }

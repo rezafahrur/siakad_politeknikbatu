@@ -32,7 +32,7 @@
                             <a href="{{ route('biodata') }}" class="nav-link">Biodata Mahasiswa</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Unggah Foto KTM</a>
+                            <a href="{{ route('ktm.index') }}" class="nav-link">Unggah Foto KTM</a>
                         </li>
                     </ul>
                 </div>
