@@ -36,6 +36,8 @@
     <!-- End layout styles -->
 
     <link rel="shortcut icon" href="{{ asset('assets/images/logo/logo.png') }}" />
+
+    @stack('styles')
 </head>
 
 <body data-session-success="{{ session('success') }}" data-session-error="{{ session('error') }}">

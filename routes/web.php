@@ -21,6 +21,7 @@ use App\Http\Controllers\AcademicSummaryController;
 use App\Http\Controllers\PermintaanSuratController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\MahasiswaKtmController;
 use App\Http\Controllers\RiwayatPermintaanSuratController;
 
 Route::group(['middleware' => ['auth:mahasiswa']], function () {
@@ -35,6 +36,11 @@ Route::group(['middleware' => ['auth:mahasiswa']], function () {
     Route::get('/news', [NewsController::class, 'index'])->name('news');
 
     Route::get('/biodata', [MahasiswaController::class, 'index'])->name('biodata');
+    Route::get('/ktm', [MahasiswaKtmController::class, 'index'])->name('ktm.index');
+    Route::post('/ktm', [MahasiswaKtmController::class, 'store'])->name('ktm.store');
+    Route::post('/upload-ktm', [MahasiswaKtmController::class, 'uploadKtm'])->name('mahasiswa.ktm.upload');
+
+
     Route::get('/krs', [KrsController::class, 'index'])->name('krs');
     Route::get('/jadwal-perkuliahan', [JadwalController::class, 'index']);
     Route::get('/nilai-mahasiswa', [NilaiMahasiswaController::class, 'index']);
