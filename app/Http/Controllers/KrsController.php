@@ -50,16 +50,4 @@ class KrsController extends Controller
         // Unduh PDF dengan nama file KRS_NAMA_MAHASISWA.pdf
         return $pdf->download($namaFile);
     }
-
-    // public function exportPdf()
-    // {
-    //     // Ambil data KRS dari database
-    //     $krs = \App\Models\KRS::with(['paketMatakuliah.paketMatakuliahDetail.matakuliah'])->get();
-
-    //     // Load view ke dalam PDF
-    //     $pdf = PDF::loadView('krs.export', compact('krs'));
-
-    //     // Download PDF
-    //     return $pdf->download('krs_mahasiswa.pdf');
-    // }
 }
