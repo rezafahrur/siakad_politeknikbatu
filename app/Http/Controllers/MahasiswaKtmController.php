@@ -59,14 +59,28 @@ class MahasiswaKtmController extends Controller
         // Save the image file
         file_put_contents($filePath, $croppedImage);
 
-        // Simpan data KTM ke dalam database
-        MahasiswaKtm::create([
-            'mahasiswa_id' => $mahasiswa->id,
-            'path_photo' => 'uploads/foto-ktm/' . $filename,
-            'status' => '1', // Set status to '1' (Pending)
-        ]);
+        // Check if the student already has a rejected KTM (status = 0)
+        $mahasiswaKtm = MahasiswaKtm::where('mahasiswa_id', $mahasiswa->id)
+                                    ->where('status', 0)
+                                    ->first();
+
+        if ($mahasiswaKtm) {
+            // Update the existing rejected KTM record
+            $mahasiswaKtm->update([
+                'path_photo' => 'uploads/foto-ktm/' . $filename,
+                'status' => '1', // Set status to '1' (Pending validation)
+            ]);
+        } else {
+            // Create a new record if no rejected KTM exists
+            MahasiswaKtm::create([
+                'mahasiswa_id' => $mahasiswa->id,
+                'path_photo' => 'uploads/foto-ktm/' . $filename,
+                'status' => '1', // Set status to '1' (Pending validation)
+            ]);
+        }
 
         return back()->with('success', 'KTM uploaded successfully and is pending for validation!');
     }
+
 
 }

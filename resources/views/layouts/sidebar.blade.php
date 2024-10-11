@@ -79,7 +79,7 @@
                 <div class="collapse" id="ukt">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="pembayaran-ukt.html" class="nav-link">Pembayaran UKT</a>
+                            <a href="" class="nav-link">Pembayaran UKT</a>
                         </li>
                     </ul>
                 </div>
