@@ -6,7 +6,26 @@
 
 @section('content')
     <div class="page-heading">
-        <h3>Upload KTM</h3>
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Upload foto KTM</h3>
+                </div>
+
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="index.html">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Upload foto KTM
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
     </div>
 
     @if (session('success'))
@@ -44,7 +63,7 @@
                         <h6>Foto KTM Anda ditolak. Silakan unggah ulang dengan foto yang sesuai.</h6>
                     </div>
                     <!-- Form Upload ulang KTM -->
-                    <h4>Upload Ulang KTM</h4>
+                    <h4 class="mb-3">Upload Ulang KTM</h4>
                     <form action="{{ route('mahasiswa.ktm.upload') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
@@ -73,7 +92,7 @@
                 @endif
             @else
                 <!-- Jika belum ada data KTM -->
-                <h4>Upload KTM Mahasiswa</h4>
+                <h4 class="mb-3">Upload KTM Mahasiswa</h4>
                 <form action="{{ route('mahasiswa.ktm.upload') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
@@ -115,7 +134,8 @@
                 croppedImg = document.querySelector('.cropped-img'),
                 upload = document.querySelector('#cropperImageUpload'),
                 croppedInput = document.querySelector('#cropped_image'),
-                cropper = '';
+                cropper = '',
+                imageUploaded = false; // Tambahkan variabel untuk mengecek apakah foto sudah diunggah
 
             // Initialize cropper
             cropper = new Cropper(croppingImage, {
@@ -131,6 +151,7 @@
                     reader.onload = function(event) {
                         croppingImage.src = event.target.result;
                         cropper.replace(event.target.result);
+                        imageUploaded = true; // Set true ketika gambar diunggah
                     };
                     reader.readAsDataURL(file);
                 }
@@ -139,9 +160,19 @@
             // Crop and display the result
             cropBtn.addEventListener('click', function(e) {
                 e.preventDefault();
-                let imgSrc = cropper.getCroppedCanvas().toDataURL();
-                croppedImg.src = imgSrc;
-                croppedInput.value = imgSrc;
+
+                // Cek apakah gambar sudah diunggah
+                if (imageUploaded) {
+                    let imgSrc = cropper.getCroppedCanvas().toDataURL();
+                    croppedImg.src = imgSrc;
+                    croppedInput.value = imgSrc;
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Oops...',
+                        text: 'Silakan unggah foto terlebih dahulu sebelum melakukan crop.',
+                    }); // Pesan peringatan jika foto belum diunggah
+                }
             });
         });
     </script>
