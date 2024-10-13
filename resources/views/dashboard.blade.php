@@ -84,9 +84,9 @@
                 <div class="card-body">
                     <h6 class="card-title">Jadwal Kuliah Hari {{ $hari }} </h6>
                     <ul class="list-group mb-2">
-                        <li class="list-group-item">08:00 - 10:00: Algoritma dan Pemrograman</li>
-                        <li class="list-group-item">10:15 - 12:15: Matematika Diskrit</li>
-                        <li class="list-group-item">13:00 - 15:00: Basis Data</li>
+                        <li class="list-group-item">08:00 - 10:00: -</li>
+                        <li class="list-group-item">10:15 - 12:15: -</li>
+                        <li class="list-group-item">13:00 - 15:00: -</li>
                     </ul>
                     <a href="#" class="btn btn-primary btn-sm">Lihat Jadwal</a>
                 </div>
@@ -115,9 +115,9 @@
                             <tbody>
                                 <td>1</td>
                                 <td>2024/2025 Ganjil</td>
-                                <td>UKT-2</td>
-                                <td>Rp. 2.000.000</td>
-                                <td class="text-success">Lunas</td>
+                                <td>UKT-1</td>
+                                <td>-</td>
+                                <td class="text-success">-</td>
                             </tbody>
                         </table>
                     </div>
@@ -223,7 +223,7 @@
                             <li>{{ $item->judul_berita }}</li>
                         @endforeach
                     </ul>
-                    <a href="" class="btn btn-primary mt-2">Lihat Semua Berita</a>
+                    <a href="" class="btn btn-primary mt-2">Lihat Semua</a>
                 </div>
             </div>
         </div>
