@@ -10,18 +10,18 @@
 
         .header {
             display: flex;
-            justify-content: center; 
+            justify-content: center;
             align-items: center;
             font-size: 12px;
             border-bottom: 2px solid black;
             padding-bottom: 10px;
-            position: relative; 
+            position: relative;
         }
 
         .header img {
             width: 100px;
-            position: absolute; 
-            left: 0; 
+            position: absolute;
+            left: 0;
         }
 
         .header .center-text {
@@ -80,14 +80,14 @@
 
         .footer-left {
             float: left;
-            width: 50%;
+            width: 60%;
             text-align: center;
         }
 
         .footer-right {
             float: right;
-            width: 50%;
-            text-align: center;
+            width: 40%;
+            text-align: left;
         }
 
         .clearfix {
@@ -166,17 +166,19 @@
     </table>
 
     <div class="footer">
-        <div class="footer-left">
+        {{-- <div class="footer-left">
             <br><br>
             <p>Mahasiswa</p>
             <br><br><br>
             <p>(..............................................)</p>
-        </div>
+        </div> --}}
         <div class="footer-right">
             <p>Batu, {{ date('d F Y') }}</p>
             <p>Dosen Pembina Akademik,</p>
             <br><br><br>
-            <p>(..............................................)</p>
+            <p>Diny Melsye Nurul Fajri, S.Kom., M.Kom</p>
+            <p>NIKS. 2024091994101</p>
+            {{-- <p>(..............................................)</p> --}}
         </div>
         <div class="clearfix"></div>
     </div>

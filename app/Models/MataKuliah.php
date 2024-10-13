@@ -36,6 +36,12 @@ class MataKuliah extends Model
     // Accessor for Jam (2 x total SKS)
     public function getJamAttribute()
     {
-        return $this->total_sks * 2;
+        if ($this->jenis_matakuliah == 'A') {
+            return $this->total_sks * 2;
+        } elseif ($this->jenis_matakuliah == 'W') {
+            return $this->total_sks * 1;
+        } else {
+            return $this->total_sks * 2; // Default case if needed
+        }
     }
 }

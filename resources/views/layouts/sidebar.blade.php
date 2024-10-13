@@ -1,7 +1,7 @@
 <nav class="sidebar">
     <div class="sidebar-header">
         <a href="#" class="sidebar-brand">
-            POLIBA<span>TU</span>
+            POLTEK<span>BATU</span>
         </a>
         <div class="sidebar-toggler not-active">
             <span></span>
