@@ -39,8 +39,17 @@ class KrsController extends Controller
             return $detail->kurikulumDetail->matakuliah->total_sks;
         });
 
-        // total jam = total sks * 2
-        $krs->total_jam = $krs->total_sks * 2;
+        // total jam berdasarkan jenis matakuliah
+        $krs->total_jam = $krs->kelas->details->sum(function ($detail) {
+            $matakuliah = $detail->kurikulumDetail->matakuliah;
+            if ($matakuliah->jenis_matakuliah == 'A') {
+                return $matakuliah->total_sks * 2;
+            } elseif ($matakuliah->jenis_matakuliah == 'W') {
+                return $matakuliah->total_sks * 1;
+            } else {
+                return $matakuliah->total_sks * 2; // Default case if needed
+            }
+        });
 
         // Buat view PDF
         $pdf = Pdf::loadView('export.export-krs', compact('krs'));
