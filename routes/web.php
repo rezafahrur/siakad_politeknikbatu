@@ -46,7 +46,7 @@ Route::group(['middleware' => ['auth:mahasiswa']], function () {
     Route::get('/nilai-mahasiswa', [NilaiMahasiswaController::class, 'index']);
     Route::get('/presensi', [PresensiController::class, 'index']);
     Route::get('/pembayaran-ukt', [PembayaranUktController::class, 'index']);
-    Route::get('/cetak_krs', [KrsController::class, 'cetakPdf'])->name('krs.cetak-pdf');
+    Route::get('/cetak-krs', [KrsController::class, 'cetakPdf'])->name('krs.cetak-pdf');
 
     // CRUD Mahasiswa
     // Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
