@@ -21,14 +21,12 @@ use App\Http\Controllers\AcademicSummaryController;
 use App\Http\Controllers\PermintaanSuratController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\MahasiswaKtmController;
 use App\Http\Controllers\RiwayatPermintaanSuratController;
 
 Route::group(['middleware' => ['auth:mahasiswa']], function () {
-    // Route::get('/', function () {
-    //     return view('home');
-    // });
+    Route::get('/', [DashboardController::class, 'index'])->name('home');
 
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/courses', [CourseController::class, 'index'])->name('courses');
     Route::get('/grades', [GradeController::class, 'index'])->name('grades');
@@ -37,14 +35,31 @@ Route::group(['middleware' => ['auth:mahasiswa']], function () {
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
     Route::get('/news', [NewsController::class, 'index'])->name('news');
 
-    Route::get('/biodata', [MahasiswaController::class, 'index']);
-    Route::get('/krs', [KrsController::class, 'index']);
+    Route::get('/biodata', [MahasiswaController::class, 'index'])->name('biodata');
+    Route::get('/ktm', [MahasiswaKtmController::class, 'index'])->name('ktm.index');
+    Route::post('/ktm', [MahasiswaKtmController::class, 'store'])->name('ktm.store');
+    Route::post('/upload-ktm', [MahasiswaKtmController::class, 'uploadKtm'])->name('mahasiswa.ktm.upload');
+
+
+    Route::get('/krs', [KrsController::class, 'index'])->name('krs');
     Route::get('/jadwal-perkuliahan', [JadwalController::class, 'index']);
     Route::get('/nilai-mahasiswa', [NilaiMahasiswaController::class, 'index']);
     Route::get('/presensi', [PresensiController::class, 'index']);
     Route::get('/pembayaran-ukt', [PembayaranUktController::class, 'index']);
-    Route::get('/krs_pdf', [KrsController::class, 'cetakPdf'])->name('krs.cetak-pdf');
+    Route::get('/cetak_krs', [KrsController::class, 'cetakPdf'])->name('krs.cetak-pdf');
 
+    // CRUD Mahasiswa
+    // Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
+    // Route::post('/mahasiswa', [MahasiswaController::class, 'storeOrUpdate'])->name('mahasiswa.store');
+    // Route::get('/mahasiswa/{mahasiswa}', [MahasiswaController::class, 'show'])->name('mahasiswa.show');
+    // Route::get('/mahasiswa/{mahasiswa}/edit', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit');
+    Route::put('/mahasiswa/{mahasiswa}', [MahasiswaController::class, 'storeOrUpdate'])->name('mahasiswa.update');
+    // Route::delete('/mahasiswa/{mahasiswa}', [MahasiswaController::class, 'destroy'])->name('mahasiswa.destroy');
+
+    // ajax
+    Route::get('/mahasiswa/cities/{provinceCode}', [MahasiswaController::class, 'getCities']);
+    Route::get('/mahasiswa/districts/{cityCode}', [MahasiswaController::class, 'getDistricts']);
+    Route::get('/mahasiswa/villages/{districtCode}', [MahasiswaController::class, 'getVillages']);
 });
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');

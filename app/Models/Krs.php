@@ -14,9 +14,10 @@ class Krs extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'mahasiswa_id',
-        'paket_matakuliah_id',
         'status',
         'tgl_transfer',
+        'kuriulum_id',
+        'kelas_id',
     ];
 
     public function mahasiswa()
@@ -24,13 +25,13 @@ class Krs extends Model
         return $this->belongsTo(Mahasiswa::class, 'mahasiswa_id', 'id');
     }
 
-    public function paketMatakuliah()
+    public function kurikulum()
     {
-        return $this->belongsTo(PaketMataKuliah::class, 'paket_matakuliah_id', 'id');
+        return $this->belongsTo(Kurikulum::class, 'kurikulum_id', 'id');
     }
 
-    public function paketMatkulview()
+    public function kelas()
     {
-        return $this->hasOne(PaketMataKuliah::class, 'paket_matakuliah_id', 'id');
+        return $this->belongsTo(Kelas::class, 'kelas_id', 'id');
     }
 }

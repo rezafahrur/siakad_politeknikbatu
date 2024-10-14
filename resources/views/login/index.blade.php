@@ -27,8 +27,8 @@
             <div class="card login-form">
                 <div class="card-body">
                     <img src="{{ asset('assets/images/logo/logo.png') }}" alt="Logo Politeknik Batu" class="img-fluid">
-                    <h5 class="card-title text-center">Siakad</h5>
-                    <a href="https://wa.me/6288805301744?text=Masuk" target="_blank" class="btn btn-primary w-100 mt-5">
+                    <h5 class="card-title text-center">SIAKAD POLTEK BATU</h5>
+                    <a href="https://wa.me/6288990020000?text=Login" target="_blank" class="btn btn-primary w-100 mt-5">
                         <i class="bi bi-arrow-return-right"></i> &nbsp;
                         MASUK
                     </a>
