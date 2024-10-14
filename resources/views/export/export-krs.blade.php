@@ -103,7 +103,6 @@
 <body>
     <div class="header">
         <img src="{{ asset('assets/images/logo/logo.png') }}" alt="Logo Poltek Batu">
-        <img src="assets\images\logo\logo.png" alt="Logo Poltek Batu">
         <div class="center-text">
             <p>KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI</p>
             <p><strong>POLITEKNIK BATU</strong></p>
