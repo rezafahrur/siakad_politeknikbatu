@@ -140,7 +140,7 @@
     </div>
 
     <table>
-        <thead>
+        <thead style="background-color: #e0f7fa; -webkit-print-color-adjust: exact;">
             <tr>
                 <th>KODE MK</th>
                 <th>MATA KULIAH</th>
