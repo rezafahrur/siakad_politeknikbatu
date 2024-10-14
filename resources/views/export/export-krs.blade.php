@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>KRS Mahasiswa</title>
+    <title>Kartu Rencana Studi (KRS) - {{ $krs->mahasiswa->nama }}</title>
     <style>
         body {
             font-family: sans-serif;
@@ -100,9 +100,9 @@
     </style>
 </head>
 
-<body>
+<body onload="setTimeout(function() { window.print(); }, 800);">
     <div class="header">
-        <img src="{{ public_path('assets/images/logo/logo.png') }}" alt="Logo Poltek Batu">
+        <img src="{{ asset('assets/images/logo/logo.png') }}" alt="Logo Poltek Batu">
         <div class="center-text">
             <p>KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI</p>
             <p><strong>POLITEKNIK BATU</strong></p>
@@ -140,7 +140,7 @@
     </div>
 
     <table>
-        <thead>
+        <thead style="background-color: #e0f7fa; -webkit-print-color-adjust: exact;">
             <tr>
                 <th>KODE MK</th>
                 <th>MATA KULIAH</th>
