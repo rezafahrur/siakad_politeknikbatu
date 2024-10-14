@@ -215,9 +215,9 @@
                                 alt="">
                         </div>
                         <div class="text-center">
-                            <p class="tx-16 fw-bolder">{{ $mahasiswa->nama }}</p>
+                            <p class="tx-16 fw-bolder">User</p>
 
-                            <p class="tx-12 text-muted">{{ $mahasiswa->email }}</p>
+                            <p class="tx-12 text-muted">Email@gmail.com</p>
                         </div>
                     </div>
                     <ul class="list-unstyled p-1">
