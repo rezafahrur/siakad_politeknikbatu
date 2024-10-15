@@ -44,12 +44,13 @@
 
                                 <dt class="col-sm-4">Program Studi</dt>
                                 <dd class="col-sm-8">
-                                    {{ $krs->kurikulum->programStudi->kode_program_studi }} -
                                     {{ $krs->kurikulum->programStudi->nama_program_studi }}
                                 </dd>
 
                                 <dt class="col-sm-4">Kelas</dt>
-                                <dd class="col-sm-8">{{ $krs->kelas->nama_kelas }}</dd>
+                                <dd class="col-sm-8">
+                                    {{ $krs->mahasiswa->semester_berjalan ?? '' }}{{ $krs->kelas->nama_kelas }}
+                                </dd>
 
                                 {{-- ip semester lalu --}}
                                 <dt class="col-sm-4">IP Semester Lalu</dt>
@@ -67,6 +68,8 @@
                         <table class="table table-bordered mb-0">
                             <thead>
                                 <tr>
+                                    {{-- no --}}
+                                    <th scope="col">No</th>
                                     <th scope="col">Kode Mata Kuliah</th>
                                     <th scope="col">Nama Mata Kuliah</th>
                                     <th scope="col">Semester</th>
@@ -77,6 +80,7 @@
                             <tbody>
                                 @foreach ($krs->kelas->details as $detail)
                                     <tr>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $detail->kurikulumDetail->matakuliah->kode_matakuliah ?? 'N/A' }}</td>
                                         <td>{{ $detail->kurikulumDetail->matakuliah->nama_matakuliah ?? 'N/A' }}</td>
                                         <td>{{ $krs->kurikulum->semester_angka }}</td>
