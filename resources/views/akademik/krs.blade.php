@@ -2,6 +2,34 @@
 
 @section('title', 'KRS Mahasiswa')
 
+@push('styles')
+    <style>
+        .student-info {
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .student-info dt {
+            float: left;
+            clear: left;
+            width: 150px;
+            position: relative;
+        }
+
+        .student-info dt::after {
+            content: ":";
+            position: absolute;
+            right: 10px;
+            /* Atur jarak sesuai kebutuhan */
+        }
+
+        .student-info dd {
+            margin: 0 0 0 5px;
+            /* Tambahkan margin sesuai lebar dt */
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-heading">
         <div class="page-title">
@@ -37,28 +65,28 @@
                 @else
                     <!-- Kolom KRS -->
                     <div class="row">
-                        <div class="col-md-6">
-                            <dl class="row">
-                                <dt class="col-sm-4">Tahun Akademik</dt>
-                                <dd class="col-sm-8">{{ $krs->kurikulum->semesters->nama_semester }}</dd>
+                        <div class="student-info">
+                            <dl>
+                                <dt>Tahun Akademik</dt>
+                                <dd>{{ $krs->kurikulum->semesters->nama_semester }}</dd>
 
-                                <dt class="col-sm-4">Program Studi</dt>
-                                <dd class="col-sm-8">
+                                <dt>Program Studi</dt>
+                                <dd>
                                     {{ $krs->kurikulum->programStudi->nama_program_studi }}
                                 </dd>
 
-                                <dt class="col-sm-4">Kelas</dt>
-                                <dd class="col-sm-8">
+                                <dt>Kelas</dt>
+                                <dd>
                                     {{ $krs->mahasiswa->semester_berjalan ?? '' }}{{ $krs->kelas->nama_kelas }}
                                 </dd>
 
                                 {{-- ip semester lalu --}}
-                                <dt class="col-sm-4">IP Semester Lalu</dt>
-                                <dd class="col-sm-8">0.00</dd>
+                                <dt>IP Semester Lalu</dt>
+                                <dd>0.00</dd>
 
                                 {{-- ip komulatif --}}
-                                <dt class="col-sm-4">IP Komulatif</dt>
-                                <dd class="col-sm-8">0.00</dd>
+                                <dt>IP Komulatif</dt>
+                                <dd>0.00</dd>
                             </dl>
                         </div>
                     </div>
