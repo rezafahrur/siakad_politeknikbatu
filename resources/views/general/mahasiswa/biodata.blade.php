@@ -5,27 +5,17 @@
 @section('content')
     <div class="page-heading">
         <div class="page-title">
-            <div class="row">
-                <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Biodata Mahasiswa</h3>
-                </div>
-
-                <div class="col-12 col-md-6 order-md-2 order-first">
-                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="index.html">Dashboard</a>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                Biodata Mahasiswa
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+            <nav class="page-breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Mahasiswa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Biodata</li>
+                </ol>
+            </nav>
         </div>
     </div>
     <div class="card-body">
+        {{-- title --}}
+        <h4 class="card-title">Biodata Mahasiswa</h4>
         <!-- Progress Bar -->
         <div class="row text-center">
             <div class="col step active" id="step1">
@@ -97,7 +87,7 @@
                             <div class="col-md-4 mb-3">
                                 <label for="nama" class="form-label">Nama</label>
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
-                                    id="nama" name="nama" placeholder="NAMA"
+                                    id="nama" name="nama" placeholder="NAMA" required readonly
                                     value="{{ old('nama') ?? $mahasiswa->nama }}"
                                     oninput="this.value = this.value.toUpperCase()">
                                 @error('nama')
@@ -137,7 +127,7 @@
                             <div class="col-md-4 mb-3">
                                 <label for="jurusan" class="form-label">Jurusan</label>
                                 <select class="form-select @error('jurusan') is-invalid @enderror" id="jurusan"
-                                    name="jurusan" required>
+                                    name="jurusan" required readonly>
                                     <option value="" disabled selected>Pilih Jurusan</option>
                                     @foreach ($jurusan as $js)
                                         <option value="{{ $js->id }}"
@@ -158,7 +148,7 @@
                             <div class="col-md-4 mb-3">
                                 <label for="program_studi" class="form-label">Program Studi</label>
                                 <select class="form-select @error('program_studi') is-invalid @enderror"
-                                    id="program_studi" name="program_studi">
+                                    id="program_studi" name="program_studi" required readonly>
                                     <option value="" disabled selected>Pilih Program Studi</option>
                                     @foreach ($prodi as $ps)
                                         <option value="{{ $ps->id }}"
