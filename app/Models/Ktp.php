@@ -61,24 +61,4 @@ class Ktp extends Model
     {
         return $this->hasMany(MahasiswaWali::class, 'ktp_id', 'id');
     }
-
-    public function province()
-    {
-        return $this->belongsTo(Province::class, 'alamat_prov_code', 'code');
-    }
-
-    public function city()
-    {
-        return $this->belongsTo(City::class, 'alamat_kotakab_code', 'code');
-    }
-
-    public function district()
-    {
-        return $this->belongsTo(District::class, 'alamat_kec_code', 'code');
-    }
-
-    public function village()
-    {
-        return $this->belongsTo(Village::class, 'alamat_kel_code', 'code');
-    }
 }
