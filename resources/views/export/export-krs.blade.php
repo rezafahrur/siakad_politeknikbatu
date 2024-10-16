@@ -48,10 +48,19 @@
             float: left;
             clear: left;
             width: 150px;
+            position: relative;
+        }
+
+        .student-info dt::after {
+            content: ":";
+            position: absolute;
+            right: 10px;
+            /* Atur jarak sesuai kebutuhan */
         }
 
         .student-info dd {
-            margin: 0 0 5px 160px;
+            margin: 0 0 0 5px;
+            /* Tambahkan margin sesuai lebar dt */
         }
 
         table {
@@ -140,7 +149,7 @@
     </div>
 
     <table>
-        <thead>
+        <thead style="background-color: #e0f7fa; -webkit-print-color-adjust: exact;">
             <tr>
                 <th>KODE MK</th>
                 <th>MATA KULIAH</th>
