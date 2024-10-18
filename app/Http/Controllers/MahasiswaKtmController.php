@@ -35,6 +35,15 @@ class MahasiswaKtmController extends Controller
         $croppedImage = $request->input('cropped_image');
         list($type, $croppedImage) = explode(';', $croppedImage);
         list(, $croppedImage) = explode(',', $croppedImage);
+
+        // Calculate the size of the Base64 image (in bytes)
+        $croppedImageSize = (int)(strlen(rtrim($croppedImage, '=')) * 3 / 4);
+
+        // Check if the image size exceeds 500KB (500 * 1024 bytes)
+        if ($croppedImageSize > 500 * 1024) {
+            return back()->withErrors('The image size should not exceed 500KB.');
+        }
+
         $croppedImage = base64_decode($croppedImage);
 
         $extension = '';
@@ -61,10 +70,15 @@ class MahasiswaKtmController extends Controller
 
         // Check if the student already has a rejected KTM (status = 0)
         $mahasiswaKtm = MahasiswaKtm::where('mahasiswa_id', $mahasiswa->id)
-                                    ->where('status', 0)
-                                    ->first();
+            ->where('status', 0)
+            ->first();
 
         if ($mahasiswaKtm) {
+            // Hapus file foto lama jika ada
+            if (File::exists(public_path($mahasiswaKtm->path_photo))) {
+                File::delete(public_path($mahasiswaKtm->path_photo));
+            }
+
             // Update the existing rejected KTM record
             $mahasiswaKtm->update([
                 'path_photo' => 'uploads/foto-ktm/' . $filename,
@@ -81,6 +95,4 @@ class MahasiswaKtmController extends Controller
 
         return back()->with('success', 'KTM uploaded successfully and is pending for validation!');
     }
-
-
 }
