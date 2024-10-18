@@ -4,6 +4,15 @@
     <link rel="stylesheet" href="{{ asset('assets/vendors/cropperjs/cropper.min.css') }}">
 @endpush
 
+<style>
+    .photo-card img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+</style>
+
 @section('content')
     <div class="page-heading">
         <div class="page-title">
@@ -33,6 +42,75 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title mb-3">Foto KTM Mahasiswa</h5>
+            <hr>
+            <div class="p-3" style="background-color: lightsteelblue; border-radius: 8px;">
+                <h4><strong>Ketentuan Pakaian untuk Pas Foto</strong></h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>1. Pria</h6>
+                        <ul>
+                            <li>Menggunakan Jas (polos) berwarna biru tua/hitam</li>
+                            <li>Kemeja (berkerah) berwarna putih polos</li>
+                            <li>Berdasi hitam</li>
+                            <li>Rambut tertata rapi, tidak menutupi telinga, tidak memakai tutup kepala, topi, atau songkok
+                            </li>
+                            <li>Tidak memakai aksesoris seperti anting atau aksesoris lainnya</li>
+                            <li>Tidak berkacamata dan tidak menggunakan softlens</li>
+                            <li>Menggunakan foto terbaru, tidak boleh diedit dengan badan orang lain</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>2. Wanita</h6>
+                        <ul>
+                            <li>Menggunakan Jas (polos) berwarna biru tua/hitam</li>
+                            <li>Kemeja (berkerah) berwarna putih polos, kerah tidak boleh dikeluarkan</li>
+                            <li>Tidak berdasi</li>
+                            <li>Jika berkerudung, kerudung warna putih dan di dalam jas, tanpa variasi</li>
+                            <li>Tidak berkacamata dan tidak menggunakan softlens</li>
+                            <li>Menggunakan foto terbaru, tidak boleh diedit dengan badan orang lain</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h4 class="mt-3"><strong>Ketentuan Foto KTM</strong></h4>
+                <ul>
+                    <li>Ukuran foto 3x4 cm</li>
+                    <li>Ukuran file maksimal 2 MB (2048 KB)</li>
+                    <li>Ukuran pixel minimal 354px x 472px</li>
+                    <li>Jenis file foto: *.jpg atau *.jpeg</li>
+                    <li>Nama file berupa NIM (contoh: 123131001.jpg)</li>
+                    <li>Kode warna background: #46b4f0</li>
+                    <li>Bisa menggunakan <a href="https://www.remove.bg" target="_blank">https://www.remove.bg</a> untuk
+                        mengganti background</li>
+                </ul>
+            </div>
+
+            <br>
+
+            <div class="container mt-5">
+                <h2 class="text-center mb-4">CONTOH FOTO KTM YANG BENAR</h2>
+                <div class="row text-center">
+                    <div class="col-md-3 mb-4 photo-card">
+                        <img src="assets\images\KTM\Putra.png" alt="Putra">
+                        <p class="mt-2 fw-bold">PUTRA</p>
+                    </div>
+                    <div class="col-md-3 mb-4 photo-card">
+                        <img src="assets\images\KTM\Putri Rambut Pendek.png" alt="Putri Rambut Sebahu">
+                        <p class="mt-2 fw-bold">PUTRI<br><small>RAMBUT SEBAHU</small></p>
+                    </div>
+                    <div class="col-md-3 mb-4 photo-card">
+                        <img src="assets\images\KTM\Putri Rambut Panjang.png" alt="Putri Rambut Panjang">
+                        <p class="mt-2 fw-bold">PUTRI<br><small>RAMBUT PANJANG</small></p>
+                    </div>
+                    <div class="col-md-3 mb-4 photo-card">
+                        <img src="assets\images\KTM\Putri Jilbab.png" alt="Putri Berkerudung">
+                        <p class="mt-2 fw-bold">PUTRI<br><small>BERKERUDUNG</small></p>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
             @if ($mahasiswaKtm)
                 @if ($mahasiswaKtm->status == 1)
                     <div class="alert alert-warning" role="alert">
