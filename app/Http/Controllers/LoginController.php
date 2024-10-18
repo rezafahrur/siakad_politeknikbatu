@@ -11,11 +11,13 @@ use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
-    function index() {
+    function index()
+    {
         return view('login.index');
     }
 
-    function generateLoginURL(Request $request) {
+    function generateLoginURL(Request $request)
+    {
         $data = json_decode($request->getContent(), true);
         $wa = str_replace('@c.us', '', $data['hp']);
         $hp = '0' . substr($wa, 2);
@@ -51,17 +53,24 @@ class LoginController extends Controller
         }
     }
 
-    function loginProcess($hp, $otp) {
-        $user  = Mahasiswa::join('t_mahasiswa_detail', 't_mahasiswa_detail.mahasiswa_id', '=', 'm_mahasiswa.id')->where('t_mahasiswa_detail.hp', $hp)->select('t_mahasiswa_detail.*', 'm_mahasiswa.nama')->orderBy('t_mahasiswa_detail.created_at', 'desc')->first();
+    function loginProcess($hp, $otp)
+    {
+        $user = Mahasiswa::join('t_mahasiswa_detail', 't_mahasiswa_detail.mahasiswa_id', '=', 'm_mahasiswa.id')
+            ->where('t_mahasiswa_detail.hp', $hp)
+            ->select('t_mahasiswa_detail.*', 'm_mahasiswa.*')
+            ->orderBy('t_mahasiswa_detail.created_at', 'desc')
+            ->first();
 
-        $mahasiswa_detail = MahasiswaDetail::where('mahasiswa_id', $user->mahasiswa_id)->orderBy('created_at', 'desc')->first();
+        $mahasiswa_detail = MahasiswaDetail::where('mahasiswa_id', $user->mahasiswa_id)
+            ->orderBy('created_at', 'desc')
+            ->first();
 
         if ($user->otp == $otp) {
-            // nullify otp
+            // Nullify OTP
             $mahasiswa_detail->otp = null;
             $mahasiswa_detail->save();
 
-            // logout session lama
+            // Logout session lama
             $new_session_id = Session::getId();
             $last_session = Session::getHandler()->read($user->session_id);
 
@@ -69,7 +78,8 @@ class LoginController extends Controller
                 Session::getHandler()->destroy($user->session_id);
                 Auth::guard('mahasiswa')->logout();
             }
-            // login
+
+            // Login
             $mahasiswa_detail->session_id = $new_session_id;
             $mahasiswa_detail->save();
 
@@ -78,11 +88,20 @@ class LoginController extends Controller
             Session::put('nim', $user->nim);
             Session::put('email', $user->email);
 
+            // Ambil data KTM mahasiswa jika ada
+            $mahasiswaKtm = \App\Models\MahasiswaKtm::where('mahasiswa_id', $user->mahasiswa_id)
+                ->where('status', 2)
+                ->first();
+
+            // Simpan path KTM di session (jika ada)
+            if ($mahasiswaKtm) {
+                Session::put('ktm_path', $mahasiswaKtm->path_photo);
+            } else {
+                Session::put('ktm_path', null); // Placeholder jika tidak ada foto
+            }
+
+            // Login menggunakan Auth
             Auth::guard('mahasiswa')->loginUsingId($user->mahasiswa_id);
-
-            $user = Auth::guard('mahasiswa')->user();
-
-            // return redirect()->route('dashboard');
 
             return redirect()->route('home');
         } else {
@@ -94,8 +113,9 @@ class LoginController extends Controller
         }
     }
 
-    function logout() {
-        $user = MahasiswaDetail::where('t_mahasiswa_detail.mahasiswa_id', Session::get('mahasiswa_id'))->join('m_mahasiswa', 't_mahasiswa_detail.mahasiswa_id', '=' , 'm_mahasiswa.id')->select( 't_mahasiswa_detail.*' , 'm_mahasiswa.nama')->orderBy('t_mahasiswa_detail.created_at', 'desc')->first();
+    function logout()
+    {
+        $user = MahasiswaDetail::where('t_mahasiswa_detail.mahasiswa_id', Session::get('mahasiswa_id'))->join('m_mahasiswa', 't_mahasiswa_detail.mahasiswa_id', '=', 'm_mahasiswa.id')->select('t_mahasiswa_detail.*', 'm_mahasiswa.nama')->orderBy('t_mahasiswa_detail.created_at', 'desc')->first();
         Session::getHandler()->destroy($user->session_id);
         $user->session_id = null;
         $user->save();
