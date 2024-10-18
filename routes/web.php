@@ -19,10 +19,10 @@ use App\Http\Controllers\PembayaranUktController;
 use App\Http\Controllers\NilaiMahasiswaController;
 use App\Http\Controllers\AcademicSummaryController;
 use App\Http\Controllers\PermintaanSuratController;
-use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\MahasiswaKtmController;
 use App\Http\Controllers\RiwayatPermintaanSuratController;
+use App\Http\Controllers\JadwalImageController;
 
 Route::group(['middleware' => ['auth:mahasiswa']], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('home');
@@ -42,7 +42,7 @@ Route::group(['middleware' => ['auth:mahasiswa']], function () {
 
 
     Route::get('/krs', [KrsController::class, 'index'])->name('krs');
-    Route::get('/jadwal-perkuliahan', [JadwalController::class, 'index']);
+    Route::get('/jadwal', [JadwalImageController::class, 'index'])->name('jadwal');
     Route::get('/nilai-mahasiswa', [NilaiMahasiswaController::class, 'index']);
     Route::get('/presensi', [PresensiController::class, 'index']);
     Route::get('/pembayaran-ukt', [PembayaranUktController::class, 'index']);
