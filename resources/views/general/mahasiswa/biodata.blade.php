@@ -5,27 +5,17 @@
 @section('content')
     <div class="page-heading">
         <div class="page-title">
-            <div class="row">
-                <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Biodata Mahasiswa</h3>
-                </div>
-
-                <div class="col-12 col-md-6 order-md-2 order-first">
-                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="index.html">Dashboard</a>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                Biodata Mahasiswa
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+            <nav class="page-breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Mahasiswa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Biodata</li>
+                </ol>
+            </nav>
         </div>
     </div>
     <div class="card-body">
+        {{-- title --}}
+        <h4 class="card-title">Biodata Mahasiswa</h4>
         <!-- Progress Bar -->
         <div class="row text-center">
             <div class="col step active" id="step1">
@@ -97,7 +87,7 @@
                             <div class="col-md-4 mb-3">
                                 <label for="nama" class="form-label">Nama</label>
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
-                                    id="nama" name="nama" placeholder="NAMA"
+                                    id="nama" name="nama" placeholder="NAMA" required readonly
                                     value="{{ old('nama') ?? $mahasiswa->nama }}"
                                     oninput="this.value = this.value.toUpperCase()">
                                 @error('nama')
@@ -137,7 +127,7 @@
                             <div class="col-md-4 mb-3">
                                 <label for="jurusan" class="form-label">Jurusan</label>
                                 <select class="form-select @error('jurusan') is-invalid @enderror" id="jurusan"
-                                    name="jurusan" required>
+                                    name="jurusan" required readonly>
                                     <option value="" disabled selected>Pilih Jurusan</option>
                                     @foreach ($jurusan as $js)
                                         <option value="{{ $js->id }}"
@@ -158,7 +148,7 @@
                             <div class="col-md-4 mb-3">
                                 <label for="program_studi" class="form-label">Program Studi</label>
                                 <select class="form-select @error('program_studi') is-invalid @enderror"
-                                    id="program_studi" name="program_studi">
+                                    id="program_studi" name="program_studi" required readonly>
                                     <option value="" disabled selected>Pilih Program Studi</option>
                                     @foreach ($prodi as $ps)
                                         <option value="{{ $ps->id }}"
@@ -637,8 +627,45 @@
 
             <!-- Step 2 -->
             <div class="tab">
-                {{-- Form Wali Mahasiswa Ayah --}}
+                {{-- Form Status Kehidupan --}}
                 <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Status Kehidupan</h5>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label class="form-label" for="status_kehidupan_ayah">Status Kehidupan Ayah</label>
+                                <select class="form-select @error('status_kehidupan_ayah') is-invalid @enderror" id="status_kehidupan_ayah" name="status_kehidupan_ayah" onchange="toggleFormsAyah()">
+                                    <option value="" selected disabled>Pilih Status</option>
+                                    <option value="hidup" {{ old('status_kehidupan_ayah') == 'hidup' ? 'selected' : '' }}>Masih Hidup</option>
+                                    <option value="meninggal" {{ old('status_kehidupan_ayah') == 'meninggal' ? 'selected' : '' }}>Sudah Meninggal</option>
+                                </select>
+                                @error('status_kehidupan_ayah')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label class="form-label" for="status_kehidupan_ibu">Status Kehidupan Ibu</label>
+                                <select class="form-select @error('status_kehidupan_ibu') is-invalid @enderror" id="status_kehidupan_ibu" name="status_kehidupan_ibu" onchange="toggleFormsIbu()">
+                                    <option value="" selected disabled>Pilih Status</option>
+                                    <option value="hidup" {{ old('status_kehidupan_ibu') == 'hidup' ? 'selected' : '' }}>Masih Hidup</option>
+                                    <option value="meninggal" {{ old('status_kehidupan_ibu') == 'meninggal' ? 'selected' : '' }}>Sudah Meninggal</option>
+                                </select>
+                                @error('status_kehidupan_ibu')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br id="br_status" style="display: none;">
+
+                {{-- Form Wali Mahasiswa Ayah --}}
+                <div class="card" id="form_wali_ayah" style="display: none;">
                     <div class="card-body">
                         <h3 class="card-title">Form Wali Mahasiswa Ayah</h3>
                         <div class="row">
@@ -845,10 +872,10 @@
                     </div>
                 </div>
 
-                <br>
+                <br id="br_wali_ayah" style="display: none;">
 
                 {{-- Form KTP Wali Ayah --}}
-                <div class="card">
+                <div class="card" id="form_ktp_ayah" style="display: none;">
                     <div class="card-body">
                         <h3 class="card-title">Form KTP Wali Ayah</h3>
                         <div class="row">
@@ -1134,10 +1161,10 @@
                     </div>
                 </div>
 
-                <br>
+                <br id="br_ktp_ayah" style="display: none;">
 
                 {{-- Form Wali Mahasiswa Ibu --}}
-                <div class="card">
+                <div class="card" id="form_wali_ibu" style="display: none;">
                     <div class="card-body">
                         <h3 class="card-title">Form Wali Mahasiswa Ibu</h3>
                         <div class="row">
@@ -1344,10 +1371,45 @@
                     </div>
                 </div>
 
-                <br>
+                {{-- Form Wali Mahasiswa Ibu Meninggal --}}
+                <div class="card" id="form_wali_ibu_meninggal" style="display: none;">
+                    <div class="card-body">
+                        <h3 class="card-title">Form Wali Mahasiswa Ibu</h3>
+                        <div class="row">
+                            {{-- Nama Wali --}}
+                            <div class="col-md-6 mb-3">
+                                <label for="wali_nama_2" class="form-label">Nama</label>
+                                <input type="text" class="form-control @error('wali_nama_2') is-invalid @enderror"
+                                    id="wali_nama_2" name="wali_nama_2" placeholder="Nama Wali"
+                                    value="{{ old('wali_nama_2') ? strtoupper(old('wali_nama_2')) : '' }}"
+                                    oninput="this.value = this.value.toUpperCase()">
+                                @error('wali_nama_2')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            {{-- Hubungan --}}
+                            <div class="col-md-6 mb-3">
+                                <label for="status_kewalian_2" class="form-label">Hubungan</label>
+                                <input type="text"
+                                    class="form-control @error('status_kewalian_2') is-invalid @enderror"
+                                    id="status_kewalian_2" name="status_kewalian_2" value="IBU" disabled>
+                                @error('status_kewalian_2')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br id="br_wali_ibu" style="display: none;">
 
                 {{-- Form KTP Wali Ibu --}}
-                <div class="card">
+                <div class="card" id="form_ktp_ibu" style="display: none;">
                     <div class="card-body">
                         <h3 class="card-title">Form KTP Wali Ibu</h3>
                         <div class="row">
@@ -2293,6 +2355,48 @@
         function toggleKebutuhanKhusus(value) {
             var section = document.getElementById('kebutuhan_khusus_section');
             section.style.display = (value === '1') ? 'block' : 'none';
+        }
+        
+        function toggleFormsAyah() {
+            // Validasi untuk ayah
+            var statusAyah = document.getElementById('status_kehidupan_ayah').value;
+
+            if (statusAyah === 'meninggal') {
+                // Sembunyikan form Wali dan KTP Ayah
+                document.getElementById('br_status').style.display = 'none';
+                document.getElementById('form_wali_ayah').style.display = 'none';
+                document.getElementById('br_wali_ayah').style.display = 'none';
+                document.getElementById('form_ktp_ayah').style.display = 'none';
+                document.getElementById('br_ktp_ayah').style.display = 'none';
+            } else {
+                // Tampilkan form Wali dan KTP Ayah
+                document.getElementById('br_status').style.display = 'block';
+                document.getElementById('form_wali_ayah').style.display = 'block';
+                document.getElementById('br_wali_ayah').style.display = 'block';
+                document.getElementById('form_ktp_ayah').style.display = 'block';
+                document.getElementById('br_ktp_ayah').style.display = 'block';
+            }
+        }
+
+        function toggleFormsIbu() {
+            // Validasi untuk ibu
+            var statusIbu = document.getElementById('status_kehidupan_ibu').value;
+
+            if (statusIbu === 'meninggal') {
+                // Sembunyikan form Wali dan KTP Ibu
+                document.getElementById('br_status').style.display = 'block';
+                document.getElementById('form_wali_ibu').style.display = 'none';
+                document.getElementById('form_wali_ibu_meninggal').style.display = 'block';
+                document.getElementById('br_wali_ibu').style.display = 'none';
+                document.getElementById('form_ktp_ibu').style.display = 'none';
+            } else {
+                // Tampilkan form Wali dan KTP Ibu
+                document.getElementById('br_status').style.display = 'block';
+                document.getElementById('form_wali_ibu').style.display = 'block';
+                document.getElementById('form_wali_ibu_meninggal').style.display = 'none';
+                document.getElementById('br_wali_ibu').style.display = 'block';
+                document.getElementById('form_ktp_ibu').style.display = 'block';
+            }
         }
     </script>
 

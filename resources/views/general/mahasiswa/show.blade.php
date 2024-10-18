@@ -5,28 +5,17 @@
 @section('content')
     <div class="page-heading">
         <div class="page-title">
-            <div class="row">
-                <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Biodata Mahasiswa</h3>
-                </div>
-
-                <div class="col-12 col-md-6 order-md-2 order-first">
-                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="index.html">Dashboard</a>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                Biodata Mahasiswa
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+            <nav class="page-breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Mahasiswa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Biodata</li>
+                </ol>
+            </nav>
         </div>
     </div>
     <div class="card">
         <div class="card-body">
+            <h4 class="card-title">Biodata Mahasiswa</h4>
             <!-- Wizard Navigation -->
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -233,7 +222,7 @@
                 <!-- Wali Details -->
                 <div class="tab-pane fade" id="pills-wali" role="tabpanel" aria-labelledby="pills-wali-tab">
                     <!-- Kolom Data Wali 1 Mahasiswa (2 baris) -->
-                    <div class="row">
+                    <div class="row" style="display: none" id="row_wali_ayah">
                         <h4 class="card-title">Wali Mahasiswa</h4>
                         <div class="col-md-6">
 
@@ -241,7 +230,7 @@
 
                                 {{-- Nama --}}
                                 <dt class="col-sm-4">Nama</dt>
-                                <dd class="col-sm-8">{{ $wali1->nama }}</dd>
+                                <dd class="col-sm-8">{{ $wali1->nama ?? '-' }}</dd>
                             </dl>
                         </div>
                         <div class="col-md-6">
@@ -249,7 +238,7 @@
                             <dl class="row">
                                 {{-- Status Kewalian --}}
                                 <dt class="col-sm-4">Status kewalian</dt>
-                                <dd class="col-sm-8">{{ $wali1->status_kewalian }}</dd>
+                                <dd class="col-sm-8">{{ $wali1->status_kewalian ?? '-' }}</dd>
                             </dl>
                         </div>
                         <div class="col-md-12">
@@ -265,15 +254,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($wali1Detail as $detail)
+                                        @if ($wali1Detail)
+                                            @foreach ($wali1Detail as $detail)
+                                                <tr>
+                                                    <td>{{ $detail->hp ?? '-' }}</td>
+                                                    <td>{{ $detail->alamat_domisili ?? '-' }}</td>
+                                                    <td>{{ $detail->pekerjaan ?? '-' }}</td>
+                                                    <td>{{ $detail->penghasilan ?? '-' }}</td>
+                                                    <td>{{ $detail->pendidikan ?? '-' }}</td>
+                                                </tr>
+                                            @endforeach
+                                        @else
                                             <tr>
-                                                <td>{{ $detail->hp }}</td>
-                                                <td>{{ $detail->alamat_domisili }}</td>
-                                                <td>{{ $detail->pekerjaan }}</td>
-                                                <td>{{ $detail->penghasilan }}</td>
-                                                <td>{{ $detail->pendidikan }}</td>
+                                                <td colspan="5">Data tidak tersedia</td>
                                             </tr>
-                                        @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -281,18 +276,18 @@
                     </div>
 
                     <!-- Kolom Data KTP Wali 1 Mahasiswa (2 baris) -->
-                    <div class="row mt-4">
+                    <div class="row mt-4" style="display: none" id="row_ktp_ayah">
                         <h4 class="card-title">KTP Wali Mahasiswa</h4>
 
                         <div class="col-md-6">
                             <dl class="row">
                                 {{-- NIK --}}
                                 <dt class="col-sm-4">NIK</dt>
-                                <dd class="col-sm-8">{{ $wali1->ktp->nik }}</dd>
+                                <dd class="col-sm-8">{{ $wali1->ktp->nik ?? '-' }}</dd>
 
                                 {{-- Alamat --}}
                                 <dt class="col-sm-4">Alamat</dt>
-                                <dd class="col-sm-8">{{ $wali1->ktp->alamat_jalan }}</dd>
+                                <dd class="col-sm-8">{{ $wali1->ktp->alamat_jalan ?? '-' }}</dd>
 
                                 {{-- Provinsi --}}
                                 <dt class="col-sm-4">Provinsi</dt>
@@ -319,28 +314,29 @@
                             <div class="row">
                                 {{-- Tempat Lahir --}}
                                 <dt class="col-sm-4">Tempat Lahir</dt>
-                                <dd class="col-sm-8">{{ $wali1->ktp->lahir_tempat }}</dd>
+                                <dd class="col-sm-8">{{ $wali1->ktp->lahir_tempat ?? '-' }}</dd>
 
                                 {{-- Tanggal Lahir --}}
                                 <dt class="col-sm-4">Tanggal Lahir</dt>
                                 <dd class="col-sm-8">
-                                    {{ \Carbon\Carbon::parse($wali1->ktp->lahir_tgl)->format('d-m-Y') }}</dd>
+                                    {{ $wali1 ? \Carbon\Carbon::parse($wali1->ktp->lahir_tgl)->format('d-m-Y') : '-' }}
+                                </dd>
 
                                 {{-- Jenis Kelamin --}}
                                 <dt class="col-sm-4">Jenis Kelamin</dt>
-                                <dd class="col-sm-8">{{ $wali1->ktp->jenis_kelamin }}</dd>
+                                <dd class="col-sm-8">{{ $wali1->ktp->jenis_kelamin ?? '-' }}</dd>
 
                                 {{-- Agama --}}
                                 <dt class="col-sm-4">Agama</dt>
-                                <dd class="col-sm-8">{{ $wali1->ktp->agama }}</dd>
+                                <dd class="col-sm-8">{{ $wali1->ktp->agama ?? '-' }}</dd>
 
                                 {{-- Golongan Darah --}}
                                 <dt class="col-sm-4">Golongan Darah</dt>
-                                <dd class="col-sm-8">{{ $wali1->ktp->golongan_darah }}</dd>
+                                <dd class="col-sm-8">{{ $wali1->ktp->golongan_darah ?? '-' }}</dd>
 
                                 {{-- Kewarganegaraan --}}
                                 <dt class="col-sm-4">Kewarganegaraan</dt>
-                                <dd class="col-sm-8">{{ $wali1->ktp->kewarganegaraan }}</dd>
+                                <dd class="col-sm-8">{{ $wali1->ktp->kewarganegaraan ?? '-' }}</dd>
                             </div>
                         </div>
                     </div>
@@ -348,7 +344,7 @@
                     <hr>
 
                     <!-- Kolom Data Wali Mahasiswa (2 baris) -->
-                    <div class="row">
+                    <div class="row" style="display: none" id="row_wali_ibu">
                         <h4 class="card-title">Wali Mahasiswa</h4>
                         <div class="col-md-6">
 
@@ -356,7 +352,7 @@
 
                                 {{-- Nama --}}
                                 <dt class="col-sm-4">Nama</dt>
-                                <dd class="col-sm-8">{{ $wali2->nama }}</dd>
+                                <dd class="col-sm-8">{{ $wali2->nama ?? '-' }}</dd>
                             </dl>
                         </div>
                         <div class="col-md-6">
@@ -364,7 +360,7 @@
                             <dl class="row">
                                 {{-- Status Kewalian --}}
                                 <dt class="col-sm-4">Status kewalian</dt>
-                                <dd class="col-sm-8">{{ $wali2->status_kewalian }}</dd>
+                                <dd class="col-sm-8">{{ $wali2->status_kewalian ?? '-' }}</dd>
                             </dl>
                         </div>
                         <div class="col-md-12">
@@ -380,34 +376,62 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($wali2Detail as $detail)
+                                        @if ($wali2Detail)
+                                            @foreach ($wali2Detail as $detail)
+                                                <tr>
+                                                    <td>{{ $detail->hp ?? '-' }}</td>
+                                                    <td>{{ $detail->alamat_domisili ?? '-' }}</td>
+                                                    <td>{{ $detail->pekerjaan ?? '-' }}</td>
+                                                    <td>{{ $detail->penghasilan ?? '-' }}</td>
+                                                    <td>{{ $detail->pendidikan ?? '-' }}</td>
+                                                </tr>
+                                            @endforeach
+                                        @else
                                             <tr>
-                                                <td>{{ $detail->hp }}</td>
-                                                <td>{{ $detail->alamat_domisili }}</td>
-                                                <td>{{ $detail->pekerjaan }}</td>
-                                                <td>{{ $detail->penghasilan }}</td>
-                                                <td>{{ $detail->pendidikan }}</td>
+                                                <td colspan="5">Data tidak tersedia</td>
                                             </tr>
-                                        @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Kolom Data Wali Mahasiswa Meninggal (2 baris) -->
+                    <div class="row" style="display: none" id="row_wali_ibu_meninggal">
+                        <h4 class="card-title">Wali Mahasiswa</h4>
+                        <div class="col-md-6">
+
+                            <dl class="row">
+
+                                {{-- Nama --}}
+                                <dt class="col-sm-4">Nama</dt>
+                                <dd class="col-sm-8">{{ $wali2->nama ?? '-' }}</dd>
+                            </dl>
+                        </div>
+                        <div class="col-md-6">
+
+                            <dl class="row">
+                                {{-- Status Kewalian --}}
+                                <dt class="col-sm-4">Status kewalian</dt>
+                                <dd class="col-sm-8">{{ $wali2->status_kewalian ?? '-' }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+
                     <!-- Kolom Data KTP Wali Mahasiswa (2 baris) -->
-                    <div class="row mt-4">
+                    <div class="row mt-4" style="display: none" id="row_ktp_ibu">
                         <h4 class="card-title">KTP Wali Mahasiswa</h4>
 
                         <div class="col-md-6">
                             <dl class="row">
                                 {{-- NIK --}}
                                 <dt class="col-sm-4">NIK</dt>
-                                <dd class="col-sm-8">{{ $wali2->ktp->nik }}</dd>
+                                <dd class="col-sm-8">{{ $wali2->ktp->nik ?? '-' }}</dd>
 
                                 {{-- Alamat --}}
                                 <dt class="col-sm-4">Alamat</dt>
-                                <dd class="col-sm-8">{{ $wali2->ktp->alamat_jalan }}</dd>
+                                <dd class="col-sm-8">{{ $wali2->ktp->alamat_jalan ?? '-' }}</dd>
 
                                 {{-- Provinsi --}}
                                 <dt class="col-sm-4">Provinsi</dt>
@@ -434,28 +458,29 @@
                             <div class="row">
                                 {{-- Tempat Lahir --}}
                                 <dt class="col-sm-4">Tempat Lahir</dt>
-                                <dd class="col-sm-8">{{ $wali2->ktp->lahir_tempat }}</dd>
+                                <dd class="col-sm-8">{{ $wali2->ktp->lahir_tempat ?? '-' }}</dd>
 
                                 {{-- Tanggal Lahir --}}
                                 <dt class="col-sm-4">Tanggal Lahir</dt>
                                 <dd class="col-sm-8">
-                                    {{ \Carbon\Carbon::parse($wali2->ktp->lahir_tgl)->format('d-m-Y') }}</dd>
+                                    {{ $wali1 ? \Carbon\Carbon::parse($wali2->ktp->lahir_tgl)->format('d-m-Y') : '-' }}
+                                </dd>
 
                                 {{-- Jenis Kelamin --}}
                                 <dt class="col-sm-4">Jenis Kelamin</dt>
-                                <dd class="col-sm-8">{{ $wali2->ktp->jenis_kelamin }}</dd>
+                                <dd class="col-sm-8">{{ $wali2->ktp->jenis_kelamin ?? '-' }}</dd>
 
                                 {{-- Agama --}}
                                 <dt class="col-sm-4">Agama</dt>
-                                <dd class="col-sm-8">{{ $wali2->ktp->agama }}</dd>
+                                <dd class="col-sm-8">{{ $wali2->ktp->agama ?? '-' }}</dd>
 
                                 {{-- Golongan Darah --}}
                                 <dt class="col-sm-4">Golongan Darah</dt>
-                                <dd class="col-sm-8">{{ $wali2->ktp->golongan_darah }}</dd>
+                                <dd class="col-sm-8">{{ $wali2->ktp->golongan_darah ?? '-' }}</dd>
 
                                 {{-- Kewarganegaraan --}}
                                 <dt class="col-sm-4">Kewarganegaraan</dt>
-                                <dd class="col-sm-8">{{ $wali2->ktp->kewarganegaraan }}</dd>
+                                <dd class="col-sm-8">{{ $wali2->ktp->kewarganegaraan ?? '-' }}</dd>
                             </div>
                         </div>
                     </div>
@@ -579,3 +604,25 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        // show wali ayah dan ibu when nik wali ayah and ibu is not null
+        if ("{{ $wali1 }}" != "") {
+            $("#row_wali_ayah").show();
+            $("#row_ktp_ayah").show();
+        } else {
+            $("#row_wali_ayah").hide();
+            $("#row_ktp_ayah").hide();
+        }
+
+        if ("{{ $wali2 }}" != "" && "{{ $wali2->ktp_id }}" != "") {
+            $("#row_wali_ibu").show();
+            $("#row_ktp_ibu").show();
+        } else if ("{{ $wali2 }}" != "" && "{{ $wali2->ktp_id }}" == "") {
+            $("#row_wali_ibu").hide();
+            $("#row_wali_ibu_meninggal").show();
+            $("#row_ktp_ibu").hide();
+        }
+    </script>
+@endpush

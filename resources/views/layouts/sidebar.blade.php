@@ -54,7 +54,7 @@
                             <a href="" class="nav-link">Kartu Hasil Studi (KHS)</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Jadwal Perkuliahan</a>
+                            <a href="{{ route('jadwal') }}" class="nav-link">Jadwal Perkuliahan</a>
                         </li>
                         <li class="nav-item">
                             <a href="" class="nav-link">Nilai Mahasiswa</a>

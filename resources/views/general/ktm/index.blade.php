@@ -7,24 +7,12 @@
 @section('content')
     <div class="page-heading">
         <div class="page-title">
-            <div class="row">
-                <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Upload foto KTM</h3>
-                </div>
-
-                <div class="col-12 col-md-6 order-md-2 order-first">
-                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="index.html">Dashboard</a>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                Upload foto KTM
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+            <nav class="page-breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Mahasiswa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Ktm</li>
+                </ol>
+            </nav>
         </div>
     </div>
 
@@ -44,6 +32,7 @@
 
     <div class="card">
         <div class="card-body">
+            <h5 class="card-title mb-3">Foto KTM Mahasiswa</h5>
             @if ($mahasiswaKtm)
                 @if ($mahasiswaKtm->status == 1)
                     <div class="alert alert-warning" role="alert">
@@ -92,7 +81,6 @@
                 @endif
             @else
                 <!-- Jika belum ada data KTM -->
-                <h4 class="mb-3">Upload KTM Mahasiswa</h4>
                 <form action="{{ route('mahasiswa.ktm.upload') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
