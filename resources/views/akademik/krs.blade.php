@@ -5,7 +5,7 @@
 @push('styles')
     <style>
         .student-info {
-            margin: 20px 0;
+            margin: 10px 0;
             font-size: 14px;
         }
 
@@ -33,32 +33,20 @@
 @section('content')
     <div class="page-heading">
         <div class="page-title">
-            <div class="row">
-                <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Kartu Rencana Studi (KRS)</h3>
-                </div>
-
-                <div class="col-12 col-md-6 order-md-2 order-first">
-                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="index.html">Dashboard</a>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                KRS
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+            <nav class="page-breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Akademik</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Krs</li>
+                </ol>
+            </nav>
         </div>
     </div>
 
     <div class="card">
         <div class="card-content">
             <div class="card-body">
-                <!-- Tambahkan Button Cetak PDF di Sini -->
-
+                {{-- title --}}
+                <h4 class="mb-3">Kartu Rencana Studi (KRS)</h4>
                 @if (!$krs)
                     <!-- Pesan jika tidak ada data KRS -->
                     <p>KRS tidak ditemukan untuk mahasiswa ini.</p>
