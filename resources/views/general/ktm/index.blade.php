@@ -32,6 +32,7 @@
 
     <div class="card">
         <div class="card-body">
+            <h5 class="card-title mb-3">Foto KTM Mahasiswa</h5>
             @if ($mahasiswaKtm)
                 @if ($mahasiswaKtm->status == 1)
                     <div class="alert alert-warning" role="alert">
@@ -80,7 +81,6 @@
                 @endif
             @else
                 <!-- Jika belum ada data KTM -->
-                <h4 class="mb-3">Upload KTM Mahasiswa</h4>
                 <form action="{{ route('mahasiswa.ktm.upload') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
