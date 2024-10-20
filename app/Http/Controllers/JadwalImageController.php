@@ -17,7 +17,7 @@ class JadwalImageController extends Controller
             });
         })->first();
 
-        $path_file_jadwal = 'http://127.0.0.1:8500';
+        $path_file_jadwal = 'https://backoffice.poltekbatu.ac.id';
 
         return view('akademik.jadwal', compact('jadwalImage', 'path_file_jadwal'));
     }
