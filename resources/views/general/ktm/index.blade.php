@@ -43,11 +43,11 @@
         <div class="card-body">
             <h5 class="card-title mb-3">Foto KTM Mahasiswa</h5>
             <hr>
-            <div class="p-3" style="background-color: lightsteelblue; border-radius: 8px;">
-                <h4><strong>Ketentuan Pakaian untuk Pas Foto</strong></h4>
+            <div class="p-3" style="background-color: #C4E1F6; border-radius: 4px;">
+                <h4 class="mb-2"><strong>KETENTUAN PAKAIAN UNTUK PAS PHOTO</strong></h4>
                 <div class="row">
-                    <div class="col-md-6">
-                        <h6>1. Pria</h6>
+                    <div class="mb-2 col-md-6">
+                        <h6 class="mb-2">1. Pria</h6>
                         <ul>
                             <li>Menggunakan Jas (polos) berwarna biru tua/hitam</li>
                             <li>Kemeja (berkerah) berwarna putih polos</li>
@@ -60,7 +60,7 @@
                         </ul>
                     </div>
                     <div class="col-md-6">
-                        <h6>2. Wanita</h6>
+                        <h6 class="mb-2">2. Wanita</h6>
                         <ul>
                             <li>Menggunakan Jas (polos) berwarna biru tua/hitam</li>
                             <li>Kemeja (berkerah) berwarna putih polos, kerah tidak boleh dikeluarkan</li>
@@ -71,8 +71,7 @@
                         </ul>
                     </div>
                 </div>
-
-                <h4 class="mt-3"><strong>Ketentuan Foto KTM</strong></h4>
+                <h4 class="mb-2"><strong>KETENTUAN FOTO KTM</strong></h4>
                 <ul>
                     <li>Ukuran foto 3x4 cm</li>
                     <li>Ukuran file maksimal 2 MB (2048 KB)</li>
@@ -84,11 +83,8 @@
                         mengganti background</li>
                 </ul>
             </div>
-
-            <br>
-
-            <div class="container mt-5">
-                <h2 class="text-center mb-4">CONTOH FOTO KTM YANG BENAR</h2>
+            <div class="container mt-2">
+                <h4 class="text-center mb-2">CONTOH FOTO KTM YANG BENAR</h4>
                 <div class="row text-center">
                     <div class="col-md-3 mb-4 photo-card">
                         <img src="assets\images\KTM\Putra.png" alt="Putra">
@@ -109,28 +105,57 @@
                 </div>
             </div>
 
-            <br>
-
-            @if ($mahasiswaKtm)
-                @if ($mahasiswaKtm->status == 1)
-                    <div class="alert alert-warning" role="alert">
-                        <h5 class="alert-heading mb-2">Pemberitahuan Validasi Foto KTM</h5>
-                        <p>Foto KTM Anda masih dalam status <a href="#" class="alert-link">pending</a> validasi. Harap
-                            menunggu proses validasi selesai.</p>
-                    </div>
-                    <img src="{{ asset($mahasiswaKtm->path_photo) }}" alt="KTM Photo" style="height: 200px;" />
-                @elseif ($mahasiswaKtm->status == 2)
-                    <div class="alert alert-success" role="alert">
-                        <h5 class="alert-heading mb-2">Pemberitahuan Validasi Foto KTM</h5>
-                        <p>Foto KTM anda sudah berhasil divalidasi dan sudah sesuai ketentuan yang ada.</p>
-                    </div>
-                    <img src="{{ asset($mahasiswaKtm->path_photo) }}" alt="KTM Photo" style="height: 200px;" />
-                @elseif ($mahasiswaKtm->status == 0)
-                    <div class="alert alert-danger">
-                        <h6>Foto KTM Anda ditolak. Silakan unggah ulang dengan foto yang sesuai.</h6>
-                    </div>
-                    <!-- Form Upload ulang KTM -->
-                    <h4 class="mb-3">Upload Ulang KTM</h4>
+            <div class="container">
+                <h5 class="card-title mb-3">UPLOAD FOTO KTM</h5>
+                @if ($mahasiswaKtm)
+                    @if ($mahasiswaKtm->status == 1)
+                        <div class="alert alert-warning" role="alert">
+                            <h5 class="alert-heading mb-2">Pemberitahuan Validasi Foto KTM</h5>
+                            <p>Foto KTM Anda masih dalam status <a href="#" class="alert-link">pending</a> validasi.
+                                Harap
+                                menunggu proses validasi selesai.</p>
+                        </div>
+                        <img src="{{ asset($mahasiswaKtm->path_photo) }}" alt="KTM Photo" style="height: 360px;" />
+                    @elseif ($mahasiswaKtm->status == 2)
+                        <div class="alert alert-success" role="alert">
+                            <h5 class="alert-heading mb-2">Pemberitahuan Validasi Foto KTM</h5>
+                            <p>Foto KTM anda sudah berhasil divalidasi dan sudah sesuai ketentuan yang ada.</p>
+                        </div>
+                        <img src="{{ asset($mahasiswaKtm->path_photo) }}" alt="KTM Photo" style="height: 360px;" />
+                    @elseif ($mahasiswaKtm->status == 0)
+                        <div class="alert alert-danger">
+                            <h6>Foto KTM Anda ditolak. Silakan unggah ulang dengan foto yang sesuai.</h6>
+                        </div>
+                        <!-- Form Upload ulang KTM -->
+                        <h4 class="mb-3">Upload Ulang KTM</h4>
+                        <form action="{{ route('mahasiswa.ktm.upload') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="mb-3">
+                                        <input class="form-control" type="file" id="cropperImageUpload" />
+                                    </div>
+                                    <div>
+                                        <img src="../../../assets/images/others/placeholder.jpg" class="w-100"
+                                            id="croppingImage" alt="cropper" />
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap mt-3">
+                                        <div class="d-flex align-items-center me-2">
+                                            <button class="btn btn-primary crop">Crop</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 ms-auto">
+                                    <h6 class="text-muted mb-3">Cropped Image:</h6>
+                                    <img class="w-100 cropped-img mt-2" src="#" alt="" />
+                                    <input type="hidden" name="cropped_image" id="cropped_image" />
+                                    <button type="submit" class="btn btn-success mt-3">Upload KTM</button>
+                                </div>
+                            </div>
+                        </form>
+                    @endif
+                @else
+                    <!-- Jika belum ada data KTM -->
                     <form action="{{ route('mahasiswa.ktm.upload') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
@@ -157,34 +182,7 @@
                         </div>
                     </form>
                 @endif
-            @else
-                <!-- Jika belum ada data KTM -->
-                <form action="{{ route('mahasiswa.ktm.upload') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="mb-3">
-                                <input class="form-control" type="file" id="cropperImageUpload" />
-                            </div>
-                            <div>
-                                <img src="../../../assets/images/others/placeholder.jpg" class="w-100" id="croppingImage"
-                                    alt="cropper" />
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center flex-wrap mt-3">
-                                <div class="d-flex align-items-center me-2">
-                                    <button class="btn btn-primary crop">Crop</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 ms-auto">
-                            <h6 class="text-muted mb-3">Cropped Image:</h6>
-                            <img class="w-100 cropped-img mt-2" src="#" alt="" />
-                            <input type="hidden" name="cropped_image" id="cropped_image" />
-                            <button type="submit" class="btn btn-success mt-3">Upload KTM</button>
-                        </div>
-                    </div>
-                </form>
-            @endif
+            </div>
         </div>
     </div>
 @endsection
