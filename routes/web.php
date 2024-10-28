@@ -23,6 +23,7 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\MahasiswaKtmController;
 use App\Http\Controllers\RiwayatPermintaanSuratController;
 use App\Http\Controllers\JadwalImageController;
+use App\Http\Controllers\SuratKuisionerController;
 
 Route::group(['middleware' => ['auth:mahasiswa']], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('home');
@@ -48,6 +49,11 @@ Route::group(['middleware' => ['auth:mahasiswa']], function () {
     Route::get('/pembayaran-ukt', [PembayaranUktController::class, 'index']);
     Route::get('/cetak-krs', [KrsController::class, 'cetakPdf'])->name('krs.cetak-pdf');
 
+    Route::get('/permintaan-surat', [SuratKuisionerController::class, 'index'])->name('surat');
+    Route::get('/permintaan-surat/create', [SuratKuisionerController::class, 'create'])->name('surat.create');
+    Route::post('/permintaan-surat', [SuratKuisionerController::class, 'store'])->name('surat.store');
+    Route::post('/surat-kuisioner/store', [SuratKuisionerController::class, 'store'])->name('surat-kuisioner.store');
+
     // CRUD Mahasiswa
     // Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
     // Route::post('/mahasiswa', [MahasiswaController::class, 'storeOrUpdate'])->name('mahasiswa.store');
@@ -66,7 +72,3 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::get('/login-process/{hp}/{otp}', [LoginController::class, 'loginProcess'])->name('login.process');
 Route::post('/loginFrom', [LoginController::class, 'generateLoginURL'])->name('login.generateURL');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-
-
-
-

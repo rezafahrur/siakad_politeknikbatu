@@ -85,6 +85,31 @@
                 </div>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#surat" role="button" aria-expanded="false"
+                    aria-controls="surat">
+                    <i class="link-icon" data-feather="mail"></i>
+                    <span class="link-title ">Surat & Kuisioner</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="surat">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('surat') }}" class="nav-link">Permintaan Surat</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link">Riwayat Permintaan Surat</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link">Kuisioner</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link">Kuisioner Akademik</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
         </ul>
     </div>
 </nav>
