@@ -134,8 +134,8 @@
             <dt>NIM</dt>
             <dd>{{ $krs->mahasiswa->nim }}</dd>
 
-            <dt>Tingkat / Kelas</dt>
-            <dd>{{ $krs->mahasiswa->semester_berjalan ?? 'N/A' }} / {{ $krs->kelas->nama_kelas }}</dd>
+            <dt>Kelas</dt>
+            <dd>{{ $krs->kelas->nama_kelas }}</dd>
 
             <dt>Program Studi</dt>
             <dd>{{ $krs->kurikulum->programStudi->nama_program_studi }}</dd>
