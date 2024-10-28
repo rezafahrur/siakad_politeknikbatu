@@ -65,7 +65,7 @@
 
                                 <dt>Kelas</dt>
                                 <dd>
-                                    {{ $krs->mahasiswa->semester_berjalan ?? '' }}{{ $krs->kelas->nama_kelas }}
+                                    {{ $krs->kelas->nama_kelas }}
                                 </dd>
 
                                 {{-- ip semester lalu --}}
