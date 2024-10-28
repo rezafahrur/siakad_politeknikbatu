@@ -339,7 +339,7 @@ class MahasiswaController extends Controller
 
             // Redirect with success message
             $message = $request->has('id') ? 'Data berhasil diperbarui' : 'Data berhasil ditambahkan';
-            return redirect()->route('mahasiswa.index')->with('success', $message);
+            return redirect()->route('biodata')->with('success', $message);
         } catch (\Exception $e) {
             // Handle the exception and redirect back with the error message
             $message = isset($request) && $request->has('id') ? 'Data gagal diperbarui' : 'Data gagal ditambahkan';
