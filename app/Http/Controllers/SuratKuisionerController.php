@@ -41,31 +41,24 @@ class SuratKuisionerController extends Controller
         logger("Mahasiswa ID: " . $request->input('mahasiswa_id'));
         logger("Semester ID: " . $request->input('semester_id'));
         logger("Jenis Surat: " . $request->input('jenis_surat'));
-
+    
         try {
-            $request->validate([
-                'mahasiswa_id' => 'required|exists:mahasiswa,id',
-                'semester_id' => 'required|exists:semester,id',
-                'jenis_surat' => 'required|string',
-            ]);
-
             $surat = new SuratKuisioner();
             $surat->mahasiswa_id = $request->input('mahasiswa_id');
             $surat->semester_id = $request->input('semester_id');
             $surat->jenis_surat = $request->input('jenis_surat');
             $surat->status = 0;
-
+    
             $surat->save();
-
+    
             return response()->json(['success' => true, 'message' => 'Permintaan surat berhasil disimpan.']);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            logger()->error("Validasi gagal: " . json_encode($e->errors()));
-            return response()->json(['success' => false, 'message' => 'Validasi gagal', 'errors' => $e->errors()]);
         } catch (\Exception $e) {
             logger()->error("Error saat menyimpan surat: " . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Gagal menyimpan permintaan surat.']);
         }
     }
+    
+    
 
     /**
      * Display the specified resource.

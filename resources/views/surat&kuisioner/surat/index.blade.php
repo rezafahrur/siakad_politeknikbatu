@@ -71,18 +71,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="" method="POST">
+                    <form action="{{ route('surat.store') }}" method="POST">
                         @csrf
+                        <!-- Hidden inputs for mahasiswa_id and semester_id -->
+                        <input type="hidden" name="mahasiswa_id" value="{{ $mahasiswa->id }}">
+                        <input type="hidden" name="semester_id" value="{{ $semester ? $semester->id : '' }}">
+                    
                         <div class="mb-3">
                             <input type="text" class="form-control" id="mahasiswa" name="mahasiswa"
-                                value="NIM : {{ $mahasiswa->nim }}" readonly>
+                                   value="NIM : {{ $mahasiswa->nim }}" readonly>
                         </div>
-
                         <div class="mb-3">
                             <input type="text" class="form-control" id="semester" name="semester"
-                                value="Semester : {{ $semester ? $semester->nama_semester : 'Tidak ada data' }}" readonly>
+                                   value="Semester : {{ $semester ? $semester->nama_semester : 'Tidak ada data' }}" readonly>
                         </div>
-
+                    
+                        <!-- Select for jenis_surat and additional fields -->
                         <div class="mb-3">
                             <label for="jenis_surat" class="form-label">Jenis Surat</label>
                             <select class="form-select" id="jenis_surat" name="jenis_surat" required>
@@ -92,8 +96,9 @@
                                 <option value="3">SKLA - Surat Keterangan Lunas Administrasi</option>
                             </select>
                         </div>
-
+                    
                         <div id="modelCInputs" style="display: none;">
+                            <!-- Additional fields for MODELC -->
                             <div class="mb-3">
                                 <label for="nama" class="form-label">Nama</label>
                                 <input type="text" class="form-control" id="nama" name="nama">
@@ -111,9 +116,10 @@
                                 <input type="text" class="form-control" id="instansi" name="instansi">
                             </div>
                         </div>
-
+                    
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </form>
+                    
                 </div>
             </div>
         </div>

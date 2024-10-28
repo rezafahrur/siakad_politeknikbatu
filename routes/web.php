@@ -52,7 +52,7 @@ Route::group(['middleware' => ['auth:mahasiswa']], function () {
     Route::get('/permintaan-surat', [SuratKuisionerController::class, 'index'])->name('surat');
     Route::get('/permintaan-surat/create', [SuratKuisionerController::class, 'create'])->name('surat.create');
     Route::post('/permintaan-surat', [SuratKuisionerController::class, 'store'])->name('surat.store');
-    Route::post('/surat-kuisioner/store', [SuratKuisionerController::class, 'store'])->name('surat-kuisioner.store');
+    //Route::post('/surat-kuisioner/store', [SuratKuisionerController::class, 'store'])->name('surat-kuisioner.store');
 
     // CRUD Mahasiswa
     // Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
