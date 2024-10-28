@@ -127,16 +127,17 @@
                             <div class="col-md-4 mb-3">
                                 <label for="jurusan" class="form-label">Jurusan</label>
                                 <select class="form-select @error('jurusan') is-invalid @enderror" id="jurusan"
-                                    name="jurusan" required readonly>
-                                    <option value="" disabled selected>Pilih Jurusan</option>
+                                    name="jurusan" required disabled>
+                                    <option value="" disabled>Pilih Jurusan</option>
                                     @foreach ($jurusan as $js)
                                         <option value="{{ $js->id }}"
                                             {{ old('jurusan', $mahasiswa->jurusan_id) == $js->id ? 'selected' : '' }}>
                                             {{ $js->nama_jurusan }}
                                         </option>
                                     @endforeach
-                                    </option>
                                 </select>
+                                <input type="hidden" name="jurusan"
+                                    value="{{ old('jurusan', $mahasiswa->jurusan_id) }}">
                                 @error('jurusan')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -148,8 +149,8 @@
                             <div class="col-md-4 mb-3">
                                 <label for="program_studi" class="form-label">Program Studi</label>
                                 <select class="form-select @error('program_studi') is-invalid @enderror"
-                                    id="program_studi" name="program_studi" required readonly>
-                                    <option value="" disabled selected>Pilih Program Studi</option>
+                                    id="program_studi" name="program_studi" required disabled>
+                                    <option value="" disabled>Pilih Program Studi</option>
                                     @foreach ($prodi as $ps)
                                         <option value="{{ $ps->id }}"
                                             {{ old('program_studi', $mahasiswa->program_studi_id) == $ps->id ? 'selected' : '' }}>
@@ -157,6 +158,8 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                <input type="hidden" name="program_studi"
+                                    value="{{ old('program_studi', $mahasiswa->program_studi_id) }}">
                                 @error('program_studi')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -634,10 +637,15 @@
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <label class="form-label" for="status_kehidupan_ayah">Status Kehidupan Ayah</label>
-                                <select class="form-select @error('status_kehidupan_ayah') is-invalid @enderror" id="status_kehidupan_ayah" name="status_kehidupan_ayah" onchange="toggleFormsAyah()">
+                                <select class="form-select @error('status_kehidupan_ayah') is-invalid @enderror"
+                                    id="status_kehidupan_ayah" name="status_kehidupan_ayah" onchange="toggleFormsAyah()">
                                     <option value="" selected disabled>Pilih Status</option>
-                                    <option value="hidup" {{ old('status_kehidupan_ayah') == 'hidup' ? 'selected' : '' }}>Masih Hidup</option>
-                                    <option value="meninggal" {{ old('status_kehidupan_ayah') == 'meninggal' ? 'selected' : '' }}>Sudah Meninggal</option>
+                                    <option value="hidup"
+                                        {{ old('status_kehidupan_ayah') == 'hidup' ? 'selected' : '' }}>Masih Hidup
+                                    </option>
+                                    <option value="meninggal"
+                                        {{ old('status_kehidupan_ayah') == 'meninggal' ? 'selected' : '' }}>Sudah
+                                        Meninggal</option>
                                 </select>
                                 @error('status_kehidupan_ayah')
                                     <div class="invalid-feedback">
@@ -647,10 +655,15 @@
                             </div>
                             <div class="form-group col-sm-6">
                                 <label class="form-label" for="status_kehidupan_ibu">Status Kehidupan Ibu</label>
-                                <select class="form-select @error('status_kehidupan_ibu') is-invalid @enderror" id="status_kehidupan_ibu" name="status_kehidupan_ibu" onchange="toggleFormsIbu()">
+                                <select class="form-select @error('status_kehidupan_ibu') is-invalid @enderror"
+                                    id="status_kehidupan_ibu" name="status_kehidupan_ibu" onchange="toggleFormsIbu()">
                                     <option value="" selected disabled>Pilih Status</option>
-                                    <option value="hidup" {{ old('status_kehidupan_ibu') == 'hidup' ? 'selected' : '' }}>Masih Hidup</option>
-                                    <option value="meninggal" {{ old('status_kehidupan_ibu') == 'meninggal' ? 'selected' : '' }}>Sudah Meninggal</option>
+                                    <option value="hidup"
+                                        {{ old('status_kehidupan_ibu') == 'hidup' ? 'selected' : '' }}>Masih Hidup
+                                    </option>
+                                    <option value="meninggal"
+                                        {{ old('status_kehidupan_ibu') == 'meninggal' ? 'selected' : '' }}>Sudah Meninggal
+                                    </option>
                                 </select>
                                 @error('status_kehidupan_ibu')
                                     <div class="invalid-feedback">
@@ -1194,7 +1207,10 @@
                                     </div>
                                 @enderror
                             </div>
-
+                        </div>
+                    </div>
+                    <div class="card-body" id="form_wali_ibu_hidup" style="display: none;">
+                        <div class="row">
                             {{-- No HP Wali --}}
                             <div class="col-md-6 mb-3">
                                 <label for="wali_no_hp_2" class="form-label">No HP</label>
@@ -1227,11 +1243,14 @@
                                 <select class="form-select @error('wali_pekerjaan_2') is-invalid @enderror"
                                     id="wali_pekerjaan_2" name="wali_pekerjaan_2">
                                     <option value="" disabled selected>Pilih Pekerjaan</option>
-                                    <option value="1" {{ old('wali_pekerjaan_2') == '1' ? 'selected' : '' }}>Tidak
+                                    <option value="1" {{ old('wali_pekerjaan_2') == '1' ? 'selected' : '' }}>
+                                        Tidak
                                         bekerja</option>
-                                    <option value="2" {{ old('wali_pekerjaan_2') == '2' ? 'selected' : '' }}>Nelayan
+                                    <option value="2" {{ old('wali_pekerjaan_2') == '2' ? 'selected' : '' }}>
+                                        Nelayan
                                     </option>
-                                    <option value="3" {{ old('wali_pekerjaan_2') == '3' ? 'selected' : '' }}>Petani
+                                    <option value="3" {{ old('wali_pekerjaan_2') == '3' ? 'selected' : '' }}>
+                                        Petani
                                     </option>
                                     <option value="4" {{ old('wali_pekerjaan_2') == '4' ? 'selected' : '' }}>
                                         Peternak</option>
@@ -1247,21 +1266,26 @@
                                         Wiraswasta</option>
                                     <option value="10" {{ old('wali_pekerjaan_2') == '10' ? 'selected' : '' }}>
                                         Wirausaha</option>
-                                    <option value="11" {{ old('wali_pekerjaan_2') == '11' ? 'selected' : '' }}>Buruh
+                                    <option value="11" {{ old('wali_pekerjaan_2') == '11' ? 'selected' : '' }}>
+                                        Buruh
                                     </option>
                                     <option value="12" {{ old('wali_pekerjaan_2') == '12' ? 'selected' : '' }}>
                                         Pensiunan</option>
                                     <option value="13" {{ old('wali_pekerjaan_2') == '13' ? 'selected' : '' }}>
                                         Peneliti</option>
-                                    <option value="14" {{ old('wali_pekerjaan_2') == '14' ? 'selected' : '' }}>Tim
+                                    <option value="14" {{ old('wali_pekerjaan_2') == '14' ? 'selected' : '' }}>
+                                        Tim
                                         Ahli / Konsultan</option>
-                                    <option value="15" {{ old('wali_pekerjaan_2') == '15' ? 'selected' : '' }}>Magang
+                                    <option value="15" {{ old('wali_pekerjaan_2') == '15' ? 'selected' : '' }}>
+                                        Magang
                                     </option>
-                                    <option value="16" {{ old('wali_pekerjaan_2') == '16' ? 'selected' : '' }}>Tenaga
+                                    <option value="16" {{ old('wali_pekerjaan_2') == '16' ? 'selected' : '' }}>
+                                        Tenaga
                                         Pengajar / Instruktur / Fasilitator</option>
                                     <option value="17" {{ old('wali_pekerjaan_2') == '17' ? 'selected' : '' }}>
                                         Pimpinan / Manajerial</option>
-                                    <option value="98" {{ old('wali_pekerjaan_2') == '98' ? 'selected' : '' }}>Sudah
+                                    <option value="98" {{ old('wali_pekerjaan_2') == '98' ? 'selected' : '' }}>
+                                        Sudah
                                         Meninggal</option>
                                     <option value="99" {{ old('wali_pekerjaan_2') == '99' ? 'selected' : '' }}>
                                         Lainnya</option>
@@ -1362,41 +1386,6 @@
                                         Lainnya</option>
                                 </select>
                                 @error('pendidikan_terakhir_2')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Form Wali Mahasiswa Ibu Meninggal --}}
-                <div class="card" id="form_wali_ibu_meninggal" style="display: none;">
-                    <div class="card-body">
-                        <h3 class="card-title">Form Wali Mahasiswa Ibu</h3>
-                        <div class="row">
-                            {{-- Nama Wali --}}
-                            <div class="col-md-6 mb-3">
-                                <label for="wali_nama_2" class="form-label">Nama</label>
-                                <input type="text" class="form-control @error('wali_nama_2') is-invalid @enderror"
-                                    id="wali_nama_2" name="wali_nama_2" placeholder="Nama Wali"
-                                    value="{{ old('wali_nama_2') ? strtoupper(old('wali_nama_2')) : '' }}"
-                                    oninput="this.value = this.value.toUpperCase()">
-                                @error('wali_nama_2')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-
-                            {{-- Hubungan --}}
-                            <div class="col-md-6 mb-3">
-                                <label for="status_kewalian_2" class="form-label">Hubungan</label>
-                                <input type="text"
-                                    class="form-control @error('status_kewalian_2') is-invalid @enderror"
-                                    id="status_kewalian_2" name="status_kewalian_2" value="IBU" disabled>
-                                @error('status_kewalian_2')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -1664,25 +1653,33 @@
                                 <select class="form-select @error('wali_kewarganegaraan_2') is-invalid @enderror"
                                     id="wali_kewarganegaraan_2" name="wali_kewarganegaraan_2">
                                     <option value="" disabled selected>Pilih Kewarganegaraan</option>
-                                    <option value="ID" {{ old('wali_kewarganegaraan_2') == 'ID' ? 'selected' : '' }}>
+                                    <option value="ID"
+                                        {{ old('wali_kewarganegaraan_2') == 'ID' ? 'selected' : '' }}>
                                         Indonesia</option>
-                                    <option value="AS" {{ old('wali_kewarganegaraan_2') == 'AS' ? 'selected' : '' }}>
+                                    <option value="AS"
+                                        {{ old('wali_kewarganegaraan_2') == 'AS' ? 'selected' : '' }}>
                                         Amerika
                                         Serikat</option>
-                                    <option value="AU" {{ old('wali_kewarganegaraan_2') == 'AU' ? 'selected' : '' }}>
+                                    <option value="AU"
+                                        {{ old('wali_kewarganegaraan_2') == 'AU' ? 'selected' : '' }}>
                                         Australia</option>
-                                    <option value="CA" {{ old('wali_kewarganegaraan_2') == 'CA' ? 'selected' : '' }}>
+                                    <option value="CA"
+                                        {{ old('wali_kewarganegaraan_2') == 'CA' ? 'selected' : '' }}>
                                         Canada
                                     </option>
-                                    <option value="CN" {{ old('wali_kewarganegaraan_2') == 'CN' ? 'selected' : '' }}>
+                                    <option value="CN"
+                                        {{ old('wali_kewarganegaraan_2') == 'CN' ? 'selected' : '' }}>
                                         China
                                     </option>
-                                    <option value="JP" {{ old('wali_kewarganegaraan_2') == 'JP' ? 'selected' : '' }}>
+                                    <option value="JP"
+                                        {{ old('wali_kewarganegaraan_2') == 'JP' ? 'selected' : '' }}>
                                         Jepang
                                     </option>
-                                    <option value="MY" {{ old('wali_kewarganegaraan_2') == 'MY' ? 'selected' : '' }}>
+                                    <option value="MY"
+                                        {{ old('wali_kewarganegaraan_2') == 'MY' ? 'selected' : '' }}>
                                         Malaysia</option>
-                                    <option value="SG" {{ old('wali_kewarganegaraan_2') == 'SG' ? 'selected' : '' }}>
+                                    <option value="SG"
+                                        {{ old('wali_kewarganegaraan_2') == 'SG' ? 'selected' : '' }}>
                                         Singapura</option>
                                 </select>
                                 @error('wali_kewarganegaraan_2')
@@ -2356,7 +2353,7 @@
             var section = document.getElementById('kebutuhan_khusus_section');
             section.style.display = (value === '1') ? 'block' : 'none';
         }
-        
+
         function toggleFormsAyah() {
             // Validasi untuk ayah
             var statusAyah = document.getElementById('status_kehidupan_ayah').value;
@@ -2385,15 +2382,15 @@
             if (statusIbu === 'meninggal') {
                 // Sembunyikan form Wali dan KTP Ibu
                 document.getElementById('br_status').style.display = 'block';
-                document.getElementById('form_wali_ibu').style.display = 'none';
-                document.getElementById('form_wali_ibu_meninggal').style.display = 'block';
+                document.getElementById('form_wali_ibu').style.display = 'block';
+                document.getElementById('form_wali_ibu_hidup').style.display = 'none';
                 document.getElementById('br_wali_ibu').style.display = 'none';
                 document.getElementById('form_ktp_ibu').style.display = 'none';
             } else {
                 // Tampilkan form Wali dan KTP Ibu
                 document.getElementById('br_status').style.display = 'block';
                 document.getElementById('form_wali_ibu').style.display = 'block';
-                document.getElementById('form_wali_ibu_meninggal').style.display = 'none';
+                document.getElementById('form_wali_ibu_hidup').style.display = 'block';
                 document.getElementById('br_wali_ibu').style.display = 'block';
                 document.getElementById('form_ktp_ibu').style.display = 'block';
             }
