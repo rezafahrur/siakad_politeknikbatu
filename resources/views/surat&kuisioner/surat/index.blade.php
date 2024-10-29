@@ -54,6 +54,27 @@
                                         <th>Status</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    @foreach ($suratKuisioners as $surat)
+                                        <tr>
+                                            <td>{{ $surat->mahasiswa->nim }}</td>
+                                            <td>{{ $surat->semester->nama_semester }}</td>
+                                            <td>
+                                                @if($surat->jenis_surat == 1)
+                                                    MODELC - Surat Pernyataan Masih Kuliah
+                                                @elseif($surat->jenis_surat == 2)
+                                                    SKK - Surat Keterangan Kuliah
+                                                @elseif($surat->jenis_surat == 3)
+                                                    SKLA - Surat Keterangan Lunas Administrasi
+                                                @else
+                                                    Unknown
+                                                @endif
+                                            </td>
+                                            
+                                            <td>{{ $surat->status == 0 ? 'Request' : '' }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -86,8 +107,6 @@
                                    value="Semester : {{ $semester ? $semester->nama_semester : 'Tidak ada data' }}" readonly>
                         </div>
                     
-                        <!-- Select for jenis_surat and additional fields -->
-<!-- Select for jenis_surat and additional fields -->
                         <div class="mb-3">
                             <label for="jenis_surat" class="form-label">Jenis Surat</label>
                             <select class="form-select" id="jenis_surat" name="jenis_surat" required>
