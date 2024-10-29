@@ -19,14 +19,24 @@ class SuratKuisionerController extends Controller
      */
     public function index()
     {
+        // Retrieve mahasiswa data based on session
         $mahasiswa = Mahasiswa::where('id', Session::get('mahasiswa_id'))->first();
+        
+        // Retrieve the latest semester
         $semester = Semester::latest()->first();
         
         // Retrieve all wali associated with the mahasiswa_id
         $mahasiswaWali = MahasiswaWali::where('mahasiswa_id', Session::get('mahasiswa_id'))->get();
+        
+        // Retrieve all surat kuisioners for the mahasiswa
+        $suratKuisioners = SuratKuisioner::where('mahasiswa_id', Session::get('mahasiswa_id'))
+                            ->with('semester', 'mahasiswa') // Load related semester and mahasiswa
+                            ->get();
     
-        return view('surat&kuisioner.surat.index', compact('mahasiswa', 'semester', 'mahasiswaWali'));
+        // Pass data to the view
+        return view('surat&kuisioner.surat.index', compact('mahasiswa', 'semester', 'mahasiswaWali', 'suratKuisioners'));
     }
+    
     
 
 
