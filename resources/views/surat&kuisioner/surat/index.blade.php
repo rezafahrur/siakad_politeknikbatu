@@ -54,6 +54,27 @@
                                         <th>Status</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    @foreach ($suratKuisioners as $surat)
+                                        <tr>
+                                            <td>{{ $surat->mahasiswa->nim }}</td>
+                                            <td>{{ $surat->semester->nama_semester }}</td>
+                                            <td>
+                                                @if($surat->jenis_surat == 1)
+                                                    MODELC - Surat Pernyataan Masih Kuliah
+                                                @elseif($surat->jenis_surat == 2)
+                                                    SKK - Surat Keterangan Kuliah
+                                                @elseif($surat->jenis_surat == 3)
+                                                    SKLA - Surat Keterangan Lunas Administrasi
+                                                @else
+                                                    Unknown
+                                                @endif
+                                            </td>
+                                            
+                                            <td>{{ $surat->status == 0 ? 'Request' : '' }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -86,7 +107,6 @@
                                    value="Semester : {{ $semester ? $semester->nama_semester : 'Tidak ada data' }}" readonly>
                         </div>
                     
-                        <!-- Select for jenis_surat and additional fields -->
                         <div class="mb-3">
                             <label for="jenis_surat" class="form-label">Jenis Surat</label>
                             <select class="form-select" id="jenis_surat" name="jenis_surat" required>
@@ -96,13 +116,22 @@
                                 <option value="3">SKLA - Surat Keterangan Lunas Administrasi</option>
                             </select>
                         </div>
-                    
+
                         <div id="modelCInputs" style="display: none;">
-                            <!-- Additional fields for MODELC -->
+                            <!-- Dropdown for Nama -->
                             <div class="mb-3">
                                 <label for="nama" class="form-label">Nama</label>
-                                <input type="text" class="form-control" id="nama" name="nama">
+                                <select class="form-select" id="nama" name="nama" required>
+                                    <option selected disabled value="">Pilih Nama</option>
+                                    @foreach ($mahasiswaWali as $wali)
+                                        <option value="{{ $wali->nama }}">{{ $wali->nama }}</option>
+                                    @endforeach
+                                    @if ($mahasiswaWali->isEmpty())
+                                        <option disabled>Tidak ada data wali mahasiswa</option>
+                                    @endif
+                                </select>
                             </div>
+                            
                             <div class="mb-3">
                                 <label for="nip" class="form-label">NIP/NRP/NPP</label>
                                 <input type="text" class="form-control" id="nip" name="nip">
@@ -116,6 +145,7 @@
                                 <input type="text" class="form-control" id="instansi" name="instansi">
                             </div>
                         </div>
+
                     
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </form>
@@ -136,5 +166,6 @@
             }
         });
     </script>
+    
 
 @endsection

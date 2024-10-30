@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SuratKuisionerRequest;
-use App\Models\Mahasiswa;
 use App\Models\Semester;
-use App\Models\SuratKuisioner;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
+use App\Models\MahasiswaWali;
+use App\Models\SuratKuisioner;
+use Illuminate\Support\Facades\DB;
+use App\Models\SuratKuisionerDetail;
 use Illuminate\Support\Facades\Session;
+use App\Http\Requests\SuratKuisionerRequest;
 
 class SuratKuisionerController extends Controller
 {
@@ -16,11 +19,25 @@ class SuratKuisionerController extends Controller
      */
     public function index()
     {
+        // Retrieve mahasiswa data based on session
         $mahasiswa = Mahasiswa::where('id', Session::get('mahasiswa_id'))->first();
+        
+        // Retrieve the latest semester
         $semester = Semester::latest()->first();
-
-        return view('surat&kuisioner.surat.index', compact('mahasiswa', 'semester'));
+        
+        // Retrieve all wali associated with the mahasiswa_id
+        $mahasiswaWali = MahasiswaWali::where('mahasiswa_id', Session::get('mahasiswa_id'))->get();
+        
+        // Retrieve all surat kuisioners for the mahasiswa
+        $suratKuisioners = SuratKuisioner::where('mahasiswa_id', Session::get('mahasiswa_id'))
+                            ->with('semester', 'mahasiswa') // Load related semester and mahasiswa
+                            ->get();
+    
+        // Pass data to the view
+        return view('surat&kuisioner.surat.index', compact('mahasiswa', 'semester', 'mahasiswaWali', 'suratKuisioners'));
     }
+    
+    
 
 
     /**
@@ -41,22 +58,43 @@ class SuratKuisionerController extends Controller
         logger("Mahasiswa ID: " . $request->input('mahasiswa_id'));
         logger("Semester ID: " . $request->input('semester_id'));
         logger("Jenis Surat: " . $request->input('jenis_surat'));
+        logger("Nama Wali: " . $request->input('nama'));
+        logger("NIP: " . $request->input('nip'));
+        logger("Pangkat: " . $request->input('pangkat'));
+        logger("Instansi: " . $request->input('instansi'));
     
+        DB::beginTransaction();
         try {
+            // Step 1: Create SuratKuisioner entry
             $surat = new SuratKuisioner();
             $surat->mahasiswa_id = $request->input('mahasiswa_id');
             $surat->semester_id = $request->input('semester_id');
             $surat->jenis_surat = $request->input('jenis_surat');
             $surat->status = 0;
-    
             $surat->save();
     
-            return response()->json(['success' => true, 'message' => 'Permintaan surat berhasil disimpan.']);
+            // Step 2: Create SuratKuisionerDetail entry
+            $suratDetail = new SuratKuisionerDetail();
+            $suratDetail->request_surat_id = $surat->id; // Associate detail with surat
+            // $suratDetail->mahasiswa_wali_id = $request->input('mahasiswa_wali_id'); // Ensure this is uncommented if needed
+            $suratDetail->nama = $request->input('nama');
+            $suratDetail->nip = $request->input('nip');
+            $suratDetail->pangkat = $request->input('pangkat');
+            $suratDetail->instansi = $request->input('instansi');
+            $suratDetail->save();
+    
+            DB::commit(); // Commit the transaction
+            return redirect()->route('surat.index')->with('error', 'Gagal Permintaan surat dan detail.');
         } catch (\Exception $e) {
-            logger()->error("Error saat menyimpan surat: " . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Gagal menyimpan permintaan surat.']);
+            DB::rollBack(); // Rollback the transaction
+            logger()->error("Error saat menyimpan surat atau detail: " . $e->getMessage());
+            logger()->error("Stack trace: " . $e->getTraceAsString());
+            
+            return redirect()->back()->with('success', 'Permintaan surat dan detail berhasil disimpan.');
         }
     }
+    
+    
     
     
 
