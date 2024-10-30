@@ -31,7 +31,7 @@ class MahasiswaRequest extends FormRequest
             // Validasi Mahasiswa
             'nama' => 'required|string|max:50',
             'email' => 'required|string|email|max:50|unique:m_mahasiswa,email',
-            'nisn' => 'required|string|max:10|unique:m_mahasiswa,nisn',
+            'nisn' => 'required|string|max:10',
             'jurusan' => 'required|integer|exists:m_jurusan,id',
             'program_studi' => 'required|integer|exists:m_program_studi,id',
             'registrasi_tanggal' => 'required|date',
@@ -130,7 +130,7 @@ class MahasiswaRequest extends FormRequest
             // Validasi Mahasiswa
             'nama' => 'required|string|max:50',
             'email' => 'required|string|email|max:50|unique:m_mahasiswa,email,' . $mahasiswa->id,
-            'nisn' => 'required|string|max:10|unique:m_mahasiswa,nisn,' . $mahasiswa->id,
+            'nisn' => 'required|string|max:10',
             'jurusan' => 'required|integer|exists:m_jurusan,id',
             'program_studi' => 'required|integer|exists:m_program_studi,id',
             'registrasi_tanggal' => 'required|date',
