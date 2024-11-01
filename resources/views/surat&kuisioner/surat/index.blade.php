@@ -159,12 +159,20 @@
         document.getElementById('jenis_surat').addEventListener('change', function() {
             const selectedValue = this.value;
             const modelCInputs = document.getElementById('modelCInputs');
+            
             if (selectedValue === "1") { // MODELC
                 modelCInputs.style.display = 'block';
+                modelCInputs.querySelectorAll('input, select').forEach(element => {
+                    element.required = true;
+                });
             } else {
                 modelCInputs.style.display = 'none';
+                modelCInputs.querySelectorAll('input, select').forEach(element => {
+                    element.required = false;
+                });
             }
         });
+
     </script>
     
 

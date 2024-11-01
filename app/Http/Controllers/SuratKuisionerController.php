@@ -55,14 +55,6 @@ class SuratKuisionerController extends Controller
      */
     public function store(Request $request)
     {
-        logger("Mahasiswa ID: " . $request->input('mahasiswa_id'));
-        logger("Semester ID: " . $request->input('semester_id'));
-        logger("Jenis Surat: " . $request->input('jenis_surat'));
-        logger("Nama Wali: " . $request->input('nama'));
-        logger("NIP: " . $request->input('nip'));
-        logger("Pangkat: " . $request->input('pangkat'));
-        logger("Instansi: " . $request->input('instansi'));
-    
         DB::beginTransaction();
         try {
             // Step 1: Create SuratKuisioner entry
@@ -73,23 +65,24 @@ class SuratKuisionerController extends Controller
             $surat->status = 0;
             $surat->save();
     
-            // Step 2: Create SuratKuisionerDetail entry
-            $suratDetail = new SuratKuisionerDetail();
-            $suratDetail->request_surat_id = $surat->id; // Associate detail with surat
-            // $suratDetail->mahasiswa_wali_id = $request->input('mahasiswa_wali_id'); // Ensure this is uncommented if needed
-            $suratDetail->nama = $request->input('nama');
-            $suratDetail->nip = $request->input('nip');
-            $suratDetail->pangkat = $request->input('pangkat');
-            $suratDetail->instansi = $request->input('instansi');
-            $suratDetail->save();
+            // Step 2: Only create SuratKuisionerDetail if jenis_surat is MODELC (1)
+            if ($request->input('jenis_surat') == 1) {
+                $suratDetail = new SuratKuisionerDetail();
+                $suratDetail->request_surat_id = $surat->id;
+                $suratDetail->nama = $request->input('nama');
+                $suratDetail->nip = $request->input('nip');
+                $suratDetail->pangkat = $request->input('pangkat');
+                $suratDetail->instansi = $request->input('instansi');
+                $suratDetail->save();
+            }
     
-            DB::commit(); // Commit the transaction
+            DB::commit();
             return redirect()->route('surat.index')->with('error', 'Gagal Permintaan surat dan detail.');
         } catch (\Exception $e) {
-            DB::rollBack(); // Rollback the transaction
+            DB::rollBack();
             logger()->error("Error saat menyimpan surat atau detail: " . $e->getMessage());
             logger()->error("Stack trace: " . $e->getTraceAsString());
-            
+    
             return redirect()->back()->with('success', 'Permintaan surat dan detail berhasil disimpan.');
         }
     }
