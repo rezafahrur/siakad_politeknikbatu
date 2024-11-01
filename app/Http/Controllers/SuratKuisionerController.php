@@ -21,23 +21,23 @@ class SuratKuisionerController extends Controller
     {
         // Retrieve mahasiswa data based on session
         $mahasiswa = Mahasiswa::where('id', Session::get('mahasiswa_id'))->first();
-        
+
         // Retrieve the latest semester
         $semester = Semester::latest()->first();
-        
+
         // Retrieve all wali associated with the mahasiswa_id
         $mahasiswaWali = MahasiswaWali::where('mahasiswa_id', Session::get('mahasiswa_id'))->get();
-        
+
         // Retrieve all surat kuisioners for the mahasiswa
         $suratKuisioners = SuratKuisioner::where('mahasiswa_id', Session::get('mahasiswa_id'))
-                            ->with('semester', 'mahasiswa') // Load related semester and mahasiswa
-                            ->get();
-    
+            ->with('semester', 'mahasiswa') // Load related semester and mahasiswa
+            ->get();
+
         // Pass data to the view
         return view('surat&kuisioner.surat.index', compact('mahasiswa', 'semester', 'mahasiswaWali', 'suratKuisioners'));
     }
-    
-    
+
+
 
 
     /**
@@ -49,6 +49,21 @@ class SuratKuisionerController extends Controller
 
         return view('surat&kuisioner.surat.create', compact('mahasiswa'));
     }
+
+    public function riwayatSurat()
+    {
+        // Retrieve the logged-in student's ID from the session
+        $mahasiswaId = Session::get('mahasiswa_id');
+
+        // Retrieve only the SuratKuisioner records that belong to the logged-in student
+        $riwayatSurat = SuratKuisioner::where('mahasiswa_id', $mahasiswaId)
+            ->with('semester', 'mahasiswa') // Load related semester and mahasiswa data
+            ->get();
+
+        // Pass the filtered data to the view
+        return view('surat&kuisioner.riwayat-surat.index', compact('riwayatSurat'));
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -64,7 +79,7 @@ class SuratKuisionerController extends Controller
             $surat->jenis_surat = $request->input('jenis_surat');
             $surat->status = 0;
             $surat->save();
-    
+
             // Step 2: Only create SuratKuisionerDetail if jenis_surat is MODELC (1)
             if ($request->input('jenis_surat') == 1) {
                 $suratDetail = new SuratKuisionerDetail();
@@ -75,21 +90,21 @@ class SuratKuisionerController extends Controller
                 $suratDetail->instansi = $request->input('instansi');
                 $suratDetail->save();
             }
-    
+
             DB::commit();
             return redirect()->route('surat.index')->with('error', 'Gagal Permintaan surat dan detail.');
         } catch (\Exception $e) {
             DB::rollBack();
             logger()->error("Error saat menyimpan surat atau detail: " . $e->getMessage());
             logger()->error("Stack trace: " . $e->getTraceAsString());
-    
+
             return redirect()->back()->with('success', 'Permintaan surat dan detail berhasil disimpan.');
         }
     }
-    
-    
-    
-    
+
+
+
+
 
     /**
      * Display the specified resource.
