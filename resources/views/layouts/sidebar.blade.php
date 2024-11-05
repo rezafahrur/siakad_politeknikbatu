@@ -104,7 +104,7 @@
                             <a href="" class="nav-link">Kuisioner</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Kuisioner Akademik</a>
+                            <a href="{{ route('kuisioner.akademik.index') }}" class="nav-link">Kuisioner Akademik</a>
                         </li>
                     </ul>
                 </div>
