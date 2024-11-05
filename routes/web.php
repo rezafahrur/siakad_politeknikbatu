@@ -23,6 +23,7 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\MahasiswaKtmController;
 use App\Http\Controllers\RiwayatPermintaanSuratController;
 use App\Http\Controllers\JadwalImageController;
+use App\Http\Controllers\KuisionerAkademikController;
 use App\Http\Controllers\SuratKuisionerController;
 use App\Models\SuratKuisioner;
 
@@ -53,8 +54,11 @@ Route::group(['middleware' => ['auth:mahasiswa']], function () {
     Route::get('/permintaan-surat', [SuratKuisionerController::class, 'index'])->name('surat');
     Route::get('/permintaan-surat/create', [SuratKuisionerController::class, 'create'])->name('surat.create');
     Route::post('/permintaan-surat', [SuratKuisionerController::class, 'store'])->name('surat.store');
+
     Route::get('/riwayat-surat', [SuratKuisionerController::class, 'riwayatSurat'])->name('riwayat-surat');
-    //Route::post('/surat-kuisioner/store', [SuratKuisionerController::class, 'store'])->name('surat-kuisioner.store');
+
+    Route::get('/kuisioner-akademik', [KuisionerAkademikController::class, 'index'])->name('kuisioner.akademik.index');
+    Route::post('/kuisioner/submit', [KuisionerAkademikController::class, 'submit'])->name('kuisioner.submit');
 
     // CRUD Mahasiswa
     // Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
