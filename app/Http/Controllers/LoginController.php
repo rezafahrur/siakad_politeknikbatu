@@ -59,7 +59,7 @@ class LoginController extends Controller
     {
         $user = Mahasiswa::join('t_mahasiswa_detail', 't_mahasiswa_detail.mahasiswa_id', '=', 'm_mahasiswa.id')
             ->where('t_mahasiswa_detail.hp', $hp)
-            ->select('t_mahasiswa_detail.', 'm_mahasiswa.')
+            ->select('t_mahasiswa_detail.*', 'm_mahasiswa.*')
             ->orderBy('t_mahasiswa_detail.created_at', 'desc')
             ->first();
 

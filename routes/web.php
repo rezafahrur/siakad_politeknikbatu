@@ -49,6 +49,10 @@ Route::group(['middleware' => ['auth:mahasiswa']], function () {
     Route::get('/presensi', [PresensiController::class, 'index']);
     Route::get('/pembayaran-ukt', [PembayaranUktController::class, 'index']);
     Route::get('/cetak-krs', [KrsController::class, 'cetakPdf'])->name('krs.cetak-pdf');
+    Route::get('/lms', function () {
+        return view('akademik.lms');
+    })->name('lms');
+
 
     Route::get('/permintaan-surat', [SuratKuisionerController::class, 'index'])->name('surat');
     Route::get('/permintaan-surat/create', [SuratKuisionerController::class, 'create'])->name('surat.create');
