@@ -20,8 +20,9 @@
 
             {{-- button connect to lms poltekbatu --}}
             <div class="mb-3">
-                <a href="https://lms.poltekbatu.ac.id/" class="btn btn-primary">
-                    Connect to LMS
+                <a href="https://lms.poltekbatu.ac.id/login/interpreterAuthenticatorDARe5.php?u={{ session('lms_credentials.username') }}&p={{ session('lms_credentials.password') }}"
+                    target="_blank">
+                    Login to LMS
                 </a>
             </div>
 

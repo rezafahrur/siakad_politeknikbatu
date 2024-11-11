@@ -73,15 +73,14 @@ class LoginController extends Controller
             $user->password_lms = bcrypt($passwordLMS); // Simpan dalam bentuk hash jika diperlukan
             $user->save();
 
-            // 2. Kirim permintaan API untuk memperbarui password di LMS
-            $response = Http::post('https://lms.poltekbatu.ac.id/user/interpreterUpdatePasswordDARe5.php', [
-                'username' => $user->nim,
-                'password' => $passwordLMS,
+            // Store LMS credentials in session
+            session([
+                'update_lms_password' => true,
+                'lms_credentials' => [
+                    'username' => $user->nim,
+                    'password' => $passwordLMS,
+                ]
             ]);
-
-            if ($response->failed()) {
-                return redirect()->route('login')->with('error', 'Gagal memperbarui password di LMS.');
-            }
 
             // Lanjutkan proses login seperti biasa
             $mahasiswa_detail->otp = null;
@@ -124,6 +123,13 @@ class LoginController extends Controller
             return redirect()->route('login')->with('error', 'Ada kesalahan, silahkan coba lagi');
         }
     }
+
+    public function clearLmsPasswordSession()
+    {
+        session()->forget('update_lms_password');
+        return response()->json(['status' => 'session cleared']);
+    }
+
 
     function logout()
     {
