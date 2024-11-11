@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\MahasiswaDetail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
 
 class LoginController extends Controller
 {
@@ -57,7 +59,7 @@ class LoginController extends Controller
     {
         $user = Mahasiswa::join('t_mahasiswa_detail', 't_mahasiswa_detail.mahasiswa_id', '=', 'm_mahasiswa.id')
             ->where('t_mahasiswa_detail.hp', $hp)
-            ->select('t_mahasiswa_detail.*', 'm_mahasiswa.*')
+            ->select('t_mahasiswa_detail.', 'm_mahasiswa.')
             ->orderBy('t_mahasiswa_detail.created_at', 'desc')
             ->first();
 
@@ -66,11 +68,25 @@ class LoginController extends Controller
             ->first();
 
         if ($user->otp == $otp) {
-            // Nullify OTP
+            // 1. Generate random string untuk password LMS
+            $passwordLMS = Str::random(8); // Panjang password 8 karakter, bisa disesuaikan
+            $user->password_lms = bcrypt($passwordLMS); // Simpan dalam bentuk hash jika diperlukan
+            $user->save();
+
+            // 2. Kirim permintaan API untuk memperbarui password di LMS
+            $response = Http::post('https://lms.poltekbatu.ac.id/user/interpreterUpdatePasswordDARe5.php', [
+                'username' => $user->nim,
+                'password' => $passwordLMS,
+            ]);
+
+            if ($response->failed()) {
+                return redirect()->route('login')->with('error', 'Gagal memperbarui password di LMS.');
+            }
+
+            // Lanjutkan proses login seperti biasa
             $mahasiswa_detail->otp = null;
             $mahasiswa_detail->save();
 
-            // Logout session lama
             $new_session_id = Session::getId();
             $last_session = Session::getHandler()->read($user->session_id);
 
@@ -79,7 +95,6 @@ class LoginController extends Controller
                 Auth::guard('mahasiswa')->logout();
             }
 
-            // Login
             $mahasiswa_detail->session_id = $new_session_id;
             $mahasiswa_detail->save();
 
@@ -88,19 +103,16 @@ class LoginController extends Controller
             Session::put('nim', $user->nim);
             Session::put('email', $user->email);
 
-            // Ambil data KTM mahasiswa jika ada
             $mahasiswaKtm = \App\Models\MahasiswaKtm::where('mahasiswa_id', $user->mahasiswa_id)
                 ->where('status', 2)
                 ->first();
 
-            // Simpan path KTM di session (jika ada)
             if ($mahasiswaKtm) {
                 Session::put('ktm_path', $mahasiswaKtm->path_photo);
             } else {
-                Session::put('ktm_path', null); // Placeholder jika tidak ada foto
+                Session::put('ktm_path', null);
             }
 
-            // Login menggunakan Auth
             Auth::guard('mahasiswa')->loginUsingId($user->mahasiswa_id);
 
             return redirect()->route('home');
@@ -109,7 +121,7 @@ class LoginController extends Controller
             $mahasiswa_detail->session_id = null;
             $mahasiswa_detail->save();
 
-            return redirect()->route('login')->with('error', 'Ada kesalahan, silahkan coba lagi');
+            return redirect()->route('login')->with('error', 'Ada kesalahan, silahkan coba lagi');
         }
     }
 
