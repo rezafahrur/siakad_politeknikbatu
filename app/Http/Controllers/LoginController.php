@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mahasiswa;
+use App\Models\MahasiswaKtm;
 use App\Models\ShortenerURL;
 use Illuminate\Http\Request;
 use App\Models\MahasiswaDetail;
@@ -57,72 +58,60 @@ class LoginController extends Controller
 
     function loginProcess($hp, $otp)
     {
+        // Find user and check if OTP is valid
         $user = Mahasiswa::join('t_mahasiswa_detail', 't_mahasiswa_detail.mahasiswa_id', '=', 'm_mahasiswa.id')
             ->where('t_mahasiswa_detail.hp', $hp)
             ->select('t_mahasiswa_detail.*', 'm_mahasiswa.*')
             ->orderBy('t_mahasiswa_detail.created_at', 'desc')
             ->first();
 
-        $mahasiswa_detail = MahasiswaDetail::where('mahasiswa_id', $user->mahasiswa_id)
-            ->orderBy('created_at', 'desc')
-            ->first();
-
-        if ($user->otp == $otp) {
-            // 1. Generate random string untuk password LMS
-            $passwordLMS = Str::random(8); // Panjang password 8 karakter, bisa disesuaikan
-            $user->password_lms = bcrypt($passwordLMS); // Simpan dalam bentuk hash jika diperlukan
-            $user->save();
-
-            // Store LMS credentials in session
-            session([
-                'update_lms_password' => true,
-                'lms_credentials' => [
-                    'username' => $user->nim,
-                    'password' => $passwordLMS,
-                ]
-            ]);
-
-            // Lanjutkan proses login seperti biasa
-            $mahasiswa_detail->otp = null;
-            $mahasiswa_detail->save();
-
-            $new_session_id = Session::getId();
-            $last_session = Session::getHandler()->read($user->session_id);
-
-            if ($last_session) {
-                Session::getHandler()->destroy($user->session_id);
-                Auth::guard('mahasiswa')->logout();
-            }
-
-            $mahasiswa_detail->session_id = $new_session_id;
-            $mahasiswa_detail->save();
-
-            Session::put('mahasiswa_id', $user->mahasiswa_id);
-            Session::put('nama', $user->nama);
-            Session::put('nim', $user->nim);
-            Session::put('email', $user->email);
-
-            $mahasiswaKtm = \App\Models\MahasiswaKtm::where('mahasiswa_id', $user->mahasiswa_id)
-                ->where('status', 2)
-                ->first();
-
-            if ($mahasiswaKtm) {
-                Session::put('ktm_path', $mahasiswaKtm->path_photo);
-            } else {
-                Session::put('ktm_path', null);
-            }
-
-            Auth::guard('mahasiswa')->loginUsingId($user->mahasiswa_id);
-
-            return redirect()->route('home');
-        } else {
-            $mahasiswa_detail->otp = null;
-            $mahasiswa_detail->session_id = null;
-            $mahasiswa_detail->save();
-
-            return redirect()->route('login')->with('error', 'Ada kesalahan, silahkan coba lagi');
+        if (!$user || $user->otp !== $otp) {
+            // Clear OTP and redirect on failure
+            MahasiswaDetail::where('mahasiswa_id', $user->mahasiswa_id)->update(['otp' => null, 'session_id' => null]);
+            return redirect()->route('login')->with('error', 'Ada kesalahan, silahkan coba lagi');
         }
+
+        // Generate and save new LMS password
+        $passwordLMS = Str::random(8);
+        $user->password_lms = bcrypt($passwordLMS); // Hash password for security
+        $user->save();
+
+        // Store LMS credentials and session flag for frontend password update
+        session([
+            'update_lms_password' => true,
+            'lms_credentials' => [
+                'username' => $user->nim,
+                'password' => $passwordLMS,
+            ]
+        ]);
+
+        // Clear OTP after successful verification
+        MahasiswaDetail::where('mahasiswa_id', $user->mahasiswa_id)->update(['otp' => null]);
+
+        // Manage session and logout from previous sessions if any
+        $new_session_id = Session::getId();
+        $last_session = Session::getHandler()->read($user->session_id);
+        if ($last_session) {
+            Session::getHandler()->destroy($user->session_id);
+            Auth::guard('mahasiswa')->logout();
+        }
+
+        // Update the current session and save user information to session
+        MahasiswaDetail::where('mahasiswa_id', $user->mahasiswa_id)->update(['session_id' => $new_session_id]);
+        Session::put([
+            'mahasiswa_id' => $user->mahasiswa_id,
+            'nama' => $user->nama,
+            'nim' => $user->nim,
+            'email' => $user->email,
+            'ktm_path' => optional(MahasiswaKtm::where('mahasiswa_id', $user->mahasiswa_id)->where('status', 2)->first())->path_photo,
+        ]);
+
+        // Authenticate the user
+        Auth::guard('mahasiswa')->loginUsingId($user->mahasiswa_id);
+
+        return redirect()->route('home');
     }
+
 
     public function clearLmsPasswordSession()
     {
@@ -130,6 +119,26 @@ class LoginController extends Controller
         return response()->json(['status' => 'session cleared']);
     }
 
+    public function proxyUpdatePassword(Request $request)
+    {
+        try {
+            // Send POST request to LMS API
+            $response = Http::post('https://lms.poltekbatu.ac.id/user/interpreterUpdatePasswordDARe5.php', [
+                'username' => $request->username,
+                'password' => $request->password,
+            ]);
+
+            // Check if the response is successful
+            if ($response->successful()) {
+                return response()->json(['message' => 'LMS password updated successfully.'], 200);
+            } else {
+                return response()->json(['error' => 'Failed to update LMS password.'], 500);
+            }
+        } catch (\Exception $e) {
+            // Catch and return any exceptions
+            return response()->json(['error' => 'An error occurred while updating LMS password.'], 500);
+        }
+    }
 
     function logout()
     {
