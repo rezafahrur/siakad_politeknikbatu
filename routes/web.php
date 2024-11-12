@@ -52,7 +52,10 @@ Route::group(['middleware' => ['auth:mahasiswa']], function () {
     Route::get('/lms', function () {
         return view('akademik.lms');
     })->name('lms');
+    Route::post('/proxy-update-lms-password', [LoginController::class, 'proxyUpdatePassword']);
     Route::get('/clear-lms-password-session', [LoginController::class, 'clearLmsPasswordSession']);
+
+
 
 
     Route::get('/permintaan-surat', [SuratKuisionerController::class, 'index'])->name('surat');
