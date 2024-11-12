@@ -16,13 +16,13 @@
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Learning Management System(LMS) - POLTEKBATU</h5>
+            <h5 class="card-title mb-3">Learning Management System (LMS)</h5>
 
             {{-- button connect to lms poltekbatu --}}
             <div class="mb-3">
                 <a href="https://lms.poltekbatu.ac.id/login/interpreterAuthenticatorDARe5.php?u={{ session('lms_credentials.username') }}&p={{ session('lms_credentials.password') }}"
                     target="_blank">
-                    Login to LMS
+                    <button class="btn btn-primary btn-sm">Connect to LMS Poltekbatu</button>
                 </a>
             </div>
 
