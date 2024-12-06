@@ -6,20 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PaketMataKuliah extends Model
+class Nilai extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'm_paket_matakuliah';
+    protected $table = 'm_nilai';
 
     protected $fillable = [
-        'nama_paket_matakuliah',
         'program_studi_id',
-        'semester',
-        'status',
-        'created_at',
-        'updated_at',
+        'kelas_id',
+        'matakuliah_id',
     ];
 
     public function programStudi()
@@ -27,14 +24,18 @@ class PaketMataKuliah extends Model
         return $this->belongsTo(ProgramStudi::class, 'program_studi_id', 'id');
     }
 
-    public function paketMataKuliahDetail()
+    public function kelas()
     {
-        return $this->hasMany(PaketMataKuliahDetail::class, 'paket_matakuliah_id', 'id');
+        return $this->belongsTo(Kelas::class, 'kelas_id', 'id');
     }
 
-    public function jadwal()
+    public function matakuliah()
     {
-        return $this->hasOne(Jadwal::class, 'paket_matakuliah_id', 'id');
+        return $this->belongsTo(Matakuliah::class, 'matakuliah_id', 'id');
     }
 
+    public function details()
+    {
+        return $this->hasMany(NilaiDetail::class, 'nilai_id', 'id');
+    }
 }

@@ -57,7 +57,7 @@
                             <a href="{{ route('jadwal') }}" class="nav-link">Jadwal Perkuliahan</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Nilai Mahasiswa</a>
+                            <a href="{{ route('nilai') }}" class="nav-link">Nilai Mahasiswa</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('lms') }}" class="nav-link">LMS</a>
