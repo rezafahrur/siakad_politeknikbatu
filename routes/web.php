@@ -4,39 +4,20 @@ use App\Models\ShortenerURL;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KrsController;
 use App\Http\Controllers\NewsController;
-use App\Http\Controllers\GradeController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\MessageController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PresensiController;
-use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\KuisionerController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\KeringananUktController;
-use App\Http\Controllers\PembayaranUktController;
 use App\Http\Controllers\NilaiMahasiswaController;
-use App\Http\Controllers\AcademicSummaryController;
-use App\Http\Controllers\PermintaanSuratController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\MahasiswaKtmController;
-use App\Http\Controllers\RiwayatPermintaanSuratController;
 use App\Http\Controllers\JadwalImageController;
 use App\Http\Controllers\SuratKuisionerController;
+use App\Http\Controllers\NilaiController;
 use App\Models\SuratKuisioner;
 
 Route::group(['middleware' => ['auth:mahasiswa']], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('home');
 
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-    Route::get('/courses', [CourseController::class, 'index'])->name('courses');
-    Route::get('/grades', [GradeController::class, 'index'])->name('grades');
-    Route::get('/academic-summary', [AcademicSummaryController::class, 'index'])->name('academic.summary');
-    Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule');
-    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
     Route::get('/news', [NewsController::class, 'index'])->name('news');
-
     Route::get('/biodata', [MahasiswaController::class, 'index'])->name('biodata');
     Route::get('/ktm', [MahasiswaKtmController::class, 'index'])->name('ktm.index');
     Route::post('/ktm', [MahasiswaKtmController::class, 'store'])->name('ktm.store');
@@ -45,9 +26,7 @@ Route::group(['middleware' => ['auth:mahasiswa']], function () {
 
     Route::get('/krs', [KrsController::class, 'index'])->name('krs');
     Route::get('/jadwal', [JadwalImageController::class, 'index'])->name('jadwal');
-    Route::get('/nilai-mahasiswa', [NilaiMahasiswaController::class, 'index']);
-    Route::get('/presensi', [PresensiController::class, 'index']);
-    Route::get('/pembayaran-ukt', [PembayaranUktController::class, 'index']);
+    Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai');
     Route::get('/cetak-krs', [KrsController::class, 'cetakPdf'])->name('krs.cetak-pdf');
     Route::get('/lms', function () {
         return view('akademik.lms');
